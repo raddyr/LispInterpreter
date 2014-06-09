@@ -7,7 +7,7 @@ from Interpreter import Interpreter
 
 
 if __name__ == '__main__':
-
+    # pass;
     try:
         filename = sys.argv[1] if len(sys.argv) > 1 else "example.txt"
         file = open(filename, "r")
@@ -18,7 +18,6 @@ if __name__ == '__main__':
     Cparser = Cparser()
     parser = yacc.yacc(module=Cparser)
     text = file.read()
-    #parser.parse(text, lexer=Cparser.scanner)
 
     ast = parser.parse(text, lexer=Cparser.scanner)
     ast.accept(TypeChecker())
@@ -29,8 +28,3 @@ if __name__ == '__main__':
     
     if TypeChecker.error_found == False:
         ast.accept2(Interpreter())
-
-    # in future
-    # ast.accept(OptimizationPass1())
-    # ast.accept(OptimizationPass2())
-    # ast.accept(CodeGenerator())

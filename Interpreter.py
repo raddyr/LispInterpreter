@@ -135,10 +135,6 @@ class Interpreter(object):
 
     @classmethod
     def calculate(cls, op, r1, r2):
-        if str(op) == '&&':
-            return eval(str(r1) + ' and ' + str(r2))
-        if str(op) == '||':
-            return eval(str(r1) + ' or ' + str(r2))
         return eval(str(r1) + str(op) + str(r2))
 
     @classmethod
