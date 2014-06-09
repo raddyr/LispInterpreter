@@ -1,0 +1,56 @@
+float a = 0.0, b = 0.0;
+
+int gcd(int m, int n) {
+	int res = 0;
+
+	if (m!=n) {
+	    if (m > n) 
+	        res = gcd(m-n, n);
+	    else
+	        res = gcd(n-m, m);
+	}
+	return res;
+}
+
+int gcd2(int a, int b) {
+	int mem = 0;
+	while (b != 0) {
+		mem = b;
+		b = a % b;
+		a = mem;
+	}
+	return a;
+}
+
+int silnia(int n) {
+	if(n==2)
+		return 2;
+	else
+		return n*silnia(n-1);
+}
+
+a = 10;
+while(a > b ) {
+
+	a = a - 1;
+	if (a == 5) 
+		continue;
+	print a;
+	print "inside while loop";
+}
+
+print "now repeat";
+
+repeat {
+	a = a + 1;
+	print a;
+} until (a < 5);
+
+print "now print";
+
+print (3+1.0)*6/48;
+
+print gcd(10,5);
+print gcd2(10,5);
+print silnia(6);
+print silnia(silnia(3));
