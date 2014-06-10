@@ -27,22 +27,21 @@ class Scanner(object):
 
 
   reserved = {
-    'and'     : 'AND',
-    'or'      : 'OR',
-    'eq'      : 'EQ',
-    'not'     : 'NOT',
-    'car'     : 'CAR',
-    'cdr'     : 'CDR',
-    'setq'    : 'SETQ',
-    'length'  : 'LENGTH',
-    'print'   : 'PRINT',
-    'quote'   : 'QUOTE',
-    'cond'    : 'COND'
+    # 'and'     : 'AND',
+    # 'or'      : 'OR',
+    # 'eq'      : 'EQ',
+    # 'not'     : 'NOT',
+    # 'car'     : 'CAR',
+    # 'cdr'     : 'CDR',
+    # 'setq'    : 'SETQ',
+    # 'length'  : 'LENGTH',
+    # 'print'   : 'PRINT',
+    # 'cond'    : 'COND',
+    'quote'   : 'QUOTE'
   }
 
 
-  tokens = [ "FLOAT", "ID", "INTEGER", "STRING"
-            # , "GE", "LE" 
+  tokens = [ "FLOAT", "ID", "INTEGER", "STRING", "FUNCTION", "NEWLINE"
            ] + list(reserved.values())
            
 
@@ -53,6 +52,8 @@ class Scanner(object):
       r'\n+'
       t.lexer.lineno += len(t.value)
       self.lineno = t.lexer.lineno
+      t.type = "NEWLINE"
+      return t
 
   def t_newline2(self,t):
       r'(\r\n)+'
@@ -79,11 +80,11 @@ class Scanner(object):
       r'\"([^\\\n]|(\\.))*?\"|\'([^\\\n]|(\\.))*?'
       return t
   
-  # t_LE = r"<="
-    
-  # t_GE = r">="
-  
+  def t_FUNCTION(self, t):
+      r'(\+|-|\*|/|<|<=|>|>=|car|cdr|eq|not|and|or|setq|length|print)\s'
+      return t
+
   def t_ID(self,t):
-      r"[a-zA-Z_]\w*|'\+'|-|'\*'|/|<|<=|>|>="
+      r"[a-zA-Z_]\w*"
       t.type = Scanner.reserved.get(t.value, 'ID')
       return t

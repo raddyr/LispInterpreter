@@ -4,7 +4,7 @@ from AST import *
 
 
 
-class Cparser(object):
+class LISPparser(object):
 
 
     def __init__(self):
@@ -44,13 +44,13 @@ class Cparser(object):
         pass
 
     def p_line(self, p):
-        """line : expression 'n'
-                  | 'n' """
+        """line : expression NEWLINE
+                  | NEWLINE """
         pass #TODO: print RESULT
     
     
     def p_expression(self, p):
-        """expression : '(' ID arg_list ')'
+        """expression : '(' FUNCTION arg_list ')'
                         | atom """
         pass  
     
@@ -67,7 +67,8 @@ class Cparser(object):
     def p_atom(self, p):
         """atom : INTEGER
                  | FLOAT
-                 | STRING"""
+                 | STRING
+                 | ID"""
         pass
 
     def p_list(self, p):
@@ -77,12 +78,3 @@ class Cparser(object):
                  | '\\'' arg
                  | QUOTE arg """
         pass
-
-    # def p_fun_name(self, p):
-    #     """fun_name : '+' | '-' | '*' | '/' | '<' | '<=' | '>' | '>=' 
-    #                  | car | cdr
-    #                  | eq | not | and | or
-    #                  | setq | length | print """
-    #     pass
-
-    
