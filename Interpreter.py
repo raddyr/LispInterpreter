@@ -15,24 +15,13 @@ class Interpreter(object):
     def visit(self, node):
         pass
 
-    @when(AST.Program)
+    @when(AST.Expression)
     def visit(self, node):
-        node.declarations.accept2(self)
-        for fundef in node.fundefs:
-            fundef.accept2(self)
-        for instr in node.instructions:
-            instr.accept2(self)
+        pass
 
     @when(AST.Const)
     def visit(self, node):
         return node.value
-
-    @when(AST.BinExpr)
-    def visit(self, node):
-        r1 = Interpreter.evalNode(self, node.left)
-        r2 = Interpreter.evalNode(self, node.right)
-
-        return Interpreter.calculate(node.operator, r1, r2)
 
     @when(AST.DeclarationList)
     def visit(self, node):
@@ -56,29 +45,12 @@ class Interpreter(object):
         if Interpreter.current_scope().set(node.left, value) == False:
             Interpreter.globalMemory.set(node.left, value)
 
-    @when(AST.OneArgInstruction)
-    def visit(self, node):
-        value = Interpreter.evalNode(self, node.arg)
-
-        if node.name == "PRINT":
-            print value
-        elif node.name == "RETURN":
-            raise ReturnValueException(value)
-        elif node.name == "BREAK":
-            raise BreakException()
-        else:
-            raise ContinueException()
-
-    @when(AST.CompoundInstruction)
-    def visit(self, node):
-        Interpreter.current_scope().push(Memory("compound_instruction"))
-        node.declarations.accept2(self)
-        for instr in node.instructions:
-            instr.accept2(self)
-
-    @when(AST.LabeledInstruction)
-    def visit(self, node):
-        node.instruction.accept2(self)
+    # @when(AST.CompoundInstruction)
+    # def visit(self, node):
+    #     Interpreter.current_scope().push(Memory("compound_instruction"))
+    #     node.declarations.accept2(self)
+    #     for instr in node.instructions:
+    #         instr.accept2(self)
 
     @when(AST.Condition)
     def visit(self, node):
@@ -97,25 +69,7 @@ class Interpreter(object):
                 break
             except ContinueException:
                 continue
-    
-    @when(AST.RepeatUntilInstr)
-    def visit(self, node):
-        try:
-            for instr in node.instructions:
-                instr.accept2(self)
-        except BreakException:
-            return
-        except Continue:
-            pass
-
-        while node.condition.accept2(self):
-            try:
-                for instr in node.instructions:
-                    instr.accept2(self)
-            except BreakException:
-                break
-            except ContinueException:
-                continue    
+       
 
     @when(AST.FunCall)
     def visit(self, node):

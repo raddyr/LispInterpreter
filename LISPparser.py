@@ -52,24 +52,29 @@ class LISPparser(object):
     def p_expression(self, p):
         """expression : '(' FUNCTION arg_list ')'
                         | atom """
-        pass  
+        if(len(p) == 5):
+            p[0] = Expression(p[2], p[3])
+        elif(len(p) == 2):
+            p[0] = Expression(p[1])
+        p[0].set_lineno(self.scanner.lineno)
     
     def p_arg_list(self, p):
         """arg_list : arg
                      | arg_list arg """
-        pass
+        pass #p[0].set_lineno(self.scanner.lineno)
 
     def p_arg(self, p):
         """arg : atom
                 | list """
-        pass
+        pass #p[0].set_lineno(self.scanner.lineno)
 
     def p_atom(self, p):
         """atom : INTEGER
                  | FLOAT
                  | STRING
                  | ID"""
-        pass
+        p[0] = Const(p[1])
+        p[0].set_lineno(self.scanner.lineno)
 
     def p_list(self, p):
         """list : '(' ')' 
@@ -77,4 +82,4 @@ class LISPparser(object):
                  | '(' arg_list '.' arg ')'
                  | '\\'' arg
                  | QUOTE arg """
-        pass
+        pass #p[0].set_lineno(self.scanner.lineno)

@@ -19,24 +19,13 @@ class Node(object):
         self.lineno = lineno
 
 # Caly program
-class Program(Node):
-    def __init__(self,declarations,fundefs,instructions):
-        self.declarations = declarations
-        self.fundefs = fundefs
-        self.instructions = instructions
+class Expression(Node):
+    def __init__(self, function_name, args):
+        self.function_name = function_name
+        self.args = args
 
-        self.symbol_table = SymbolTable(None, "main")
-        for decl in self.declarations.declarations:
-            decl.set_symbol_table(self.symbol_table)
-
-        for instr in self.instructions:
-            if type(instr) == CompoundInstruction:
-                instr.set_symbol_table_parent(self.symbol_table)
-            instr.set_symbol_table(self.symbol_table)
-
-        for fundef in self.fundefs:
-            fundef.set_symbol_table_parent(self.symbol_table)
-
+    def __init__(self, atom):
+        self.atom = atom
 
 # Stale
 class Const(Node):
@@ -47,23 +36,6 @@ class Const(Node):
             self.value = value
     def __str__(self):
         return self.value.__str__()    
-
-# Wyrazenia ==,!=,<=,>= itd.
-class BinExpr(Node):
-
-    def __init__(self,operator,left,right):
-        self.type = "BinExpr"
-        self.operator = operator
-        self.left = left
-        self.right = right
-
-    def set_symbol_table(self, symbol_table):
-        self.symbol_table = symbol_table
-        if type(self.left) == BinExpr or type(self.left) == FunCall:
-            self.left.set_symbol_table(symbol_table)
-        if type(self.right) == BinExpr or type(self.right) == FunCall:
-            self.right.set_symbol_table(symbol_table)
-
 
 # Lista deklaracji
 class DeclarationList(Node):
@@ -138,54 +110,25 @@ class Assignment(Instruction):
         if type (self.right) == BinExpr or type(self.right) == FunCall:
             self.right.set_symbol_table(symbol_table) 
 
+# # Instrukcja w nawiasach klamrowych 
+# class CompoundInstruction(Instruction):
 
+#     def __init__(self,declarations,instructions):
+#         self.declarations = declarations
+#         self.instructions = instructions
 
-# Instrukcje PRINT, RETURN, BREAK, CONTINUE
-class OneArgInstruction(Instruction):
+#         self.symbol_table = SymbolTable(None, "compound")
+#         for decl in self.declarations.declarations:
+#             decl.set_symbol_table(self.symbol_table)
 
-    def __init__(self,name,arg):
-        self.name = name.upper()
-        self.arg = arg
+#         for instr in self.instructions:
+#             if (type(instr) == CompoundInstruction):
+#                 instr.set_symbol_table_parent(self.symbol_table)
+#             else:
+#                 instr.set_symbol_table(self.symbol_table)
 
-    def set_function(self,function):
-        self.function = function
-
-    def set_symbol_table(self, symbol_table):
-        self.symbol_table = symbol_table
-        if type(self.arg) == BinExpr or type(self.arg) == FunCall:
-            self.arg.set_symbol_table(symbol_table)
-
-# Instrukcja w nawiasach klamrowych 
-class CompoundInstruction(Instruction):
-
-    def __init__(self,declarations,instructions):
-        self.declarations = declarations
-        self.instructions = instructions
-
-        self.symbol_table = SymbolTable(None, "compound")
-        for decl in self.declarations.declarations:
-            decl.set_symbol_table(self.symbol_table)
-
-        for instr in self.instructions:
-            if (type(instr) == CompoundInstruction):
-                instr.set_symbol_table_parent(self.symbol_table)
-            else:
-                instr.set_symbol_table(self.symbol_table)
-
-    def set_symbol_table_parent(self,parent):
-        self.symbol_table.parent = parent
-
-
-# Etykieta
-class LabeledInstruction(Instruction):
-
-    def __init__(self,name,instruction):
-        self.name = name
-        self.instruction = instruction
-
-    def set_symbol_table(self,symbol_table):
-        self.instruction.symbol_table = symbol_table
-
+#     def set_symbol_table_parent(self,parent):
+#         self.symbol_table.parent = parent
 
 # Instrukcja IF ... ELSE
 class Condition(Instruction):
@@ -222,23 +165,6 @@ class WhileInstr(Instruction):
             self.instruction.set_symbol_table_parent(symbol_table)
         else:
             self.instruction.set_symbol_table(symbol_table)
-      
-
-# Instrukcja REPEAT ... UNTIL
-class RepeatUntilInstr(Instruction):
-
-    def __init__(self,condition,instructions):
-        self.condition = condition
-        self.instructions = instructions
-
-    def set_symbol_table(self, symbol_table):
-        self.symbol_table = symbol_table
-        self.condition.set_symbol_table(symbol_table)
-        for instr in self.instructions:
-            if type(instr) == CompoundInstruction:
-                instr.set_symbol_table_parent(symbol_table)
-            else:
-                instr.set_symbol_table(symbol_table)
 
 
 # Wywolanie funkcji

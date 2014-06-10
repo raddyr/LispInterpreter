@@ -18,13 +18,9 @@ def printTab(depth, value):
 
 class TreePrinter:
 
-    @addToClass(AST.Program)
+    @addToClass(AST.Expression)
     def printTree(self,depth):
-        self.declarations.printTree(depth+1)
-        for fundef in self.fundefs:
-            fundef.printTree(depth+1)
-        for instr in self.instructions:
-            instr.printTree(depth+1)
+        pass
 
 
     @addToClass(AST.Node)
@@ -35,25 +31,6 @@ class TreePrinter:
     @addToClass(AST.Const)
     def printTree(self,depth):
         printTab(depth,self.value)
-
-    '''
-    @addToClass(AST.Variable)
-    def printTree(self,depth):
-        printTab(depth,self.name)    
-    '''
-
-    @addToClass(AST.BinExpr)
-    def printTree(self,depth):
-        printTab(depth,self.operator)
-        if type(self.left) == str:
-            printTab(depth+1,self.left)
-        else:
-            self.left.printTree(depth+1)
-        
-        if type(self.right) == str:
-            printTab(depth+1,self.right)
-        else:
-            self.right.printTree(depth+1)
 
 
     @addToClass(AST.Declaration)
@@ -100,21 +77,14 @@ class TreePrinter:
     @addToClass(AST.Arg)
     def printTree(self,depth):
         printTab(depth,"ARG "+self.name)
-    
-
-    @addToClass(AST.OneArgInstruction)
-    def printTree(self,depth):
-        printTab(depth,self.name)
-        if self.arg != None:
-            printTab(depth+1,self.arg)
 
 
-    @addToClass(AST.CompoundInstruction)
-    def printTree(self,depth):
-        self.declarations.printTree(depth+1)
-        if self.instructions != None:
-            for instr in self.instructions:
-                instr.printTree(depth+1)
+    # @addToClass(AST.CompoundInstruction)
+    # def printTree(self,depth):
+    #     self.declarations.printTree(depth+1)
+    #     if self.instructions != None:
+    #         for instr in self.instructions:
+    #             instr.printTree(depth+1)
 
 
     @addToClass(AST.Condition)
@@ -127,27 +97,11 @@ class TreePrinter:
             self.else_instruction.printTree(depth)
 
 
-    @addToClass(AST.LabeledInstruction)
-    def printTree(self,depth):
-        printTab(depth,"LABEL")
-        printTab(depth+1,self.name)
-        self.instruction.printTree(depth)
-
-
     @addToClass(AST.WhileInstr)
     def printTree(self,depth):
         printTab(depth,"WHILE")
         self.condition.printTree(depth+1)
         self.instruction.printTree(depth)
-
-
-    @addToClass(AST.RepeatUntilInstr)
-    def printTree(self,depth):
-        printTab(depth,"REPEAT")
-        for instr in self.instructions:
-            instr.printTree(depth+1)
-        printTab(depth,"UNTIL")
-        self.condition.printTree(depth+1)
 
 
     @addToClass(AST.FunCall)

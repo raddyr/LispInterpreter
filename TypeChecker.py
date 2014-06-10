@@ -19,12 +19,8 @@ class TypeChecker(object):
     def warning(cls,msg,lineno):
         print str(lineno) + ": warning: ",msg + "."
 
-    def visit_Program(self,node):
-        node.declarations.accept(self)
-        for fundef in node.fundefs:
-            fundef.accept(self)
-        for instr in node.instructions:
-            instr.accept(self)
+    def visit_Expression(self,node):
+        pass
 
     def visit_DeclarationList(self,node):
         for decl in node.declarations:
@@ -60,31 +56,11 @@ class TypeChecker(object):
             return "string"
 
 
-    def visit_OneArgInstruction(self,node):
-        if node.name == "PRINT" or node.name == "RETURN":
-            if type(node.arg) == str:
-                type1 = node.symbol_table.get(node.arg)
-                if type1 == None:
-                    TypeChecker.error("undeclared variable '" + node.arg +"'",node.lineno)
-                    return None
-                else:
-                    type1 = type1.type
-            else:
-                type1 = node.arg.accept(self)
-        
-        if node.name == "RETURN":
-            if type1 != TypeChecker.return_type: 
-                if type1 == 'int' and node.function.return_type =='float':
-                    TypeChecker.warning("return value - casting from int to float",node.lineno)
-                else:
-                    TypeChecker.error("invalid return type; expected '" + str(node.function.return_type) + "', got '" + str(type1) + "'",node.lineno)
-
-
-    def visit_CompoundInstruction(self,node):
-        for decl in node.declarations.declarations:
-            decl.accept(self)
-        for instr in node.instructions:
-            instr.accept(self)
+    # def visit_CompoundInstruction(self,node):
+    #     for decl in node.declarations.declarations:
+    #         decl.accept(self)
+    #     for instr in node.instructions:
+    #         instr.accept(self)
 
     def visit_Assignment(self,node):
         type1 = node.symbol_table.get(node.left)
@@ -115,38 +91,7 @@ class TypeChecker(object):
             for arg in node.args_list:
                 arg.accept(self)
         node.instr_list.accept(self)
-
-
-    def visit_BinExpr(self, node):
-        if type(node.left) == str:
-            type1 = node.symbol_table.get(node.left)
-            if type1 != None:
-                type1 = type1.type
-        else:
-            type1 = node.left.accept(self)
-        if type(node.right) == str:
-            type2 = node.symbol_table.get(node.right)
-            if type2 != None:
-                type2 = type2.type
-        else:
-            type2 = node.right.accept(self)
-        op = node.operator;
-        if type1 == None:
-            if type(node.left) == str:
-                TypeChecker.error("undeclared variable '" + node.left + "'",node.lineno)
-
-        elif type2 == None:
-            if type(node.right) == str:
-                TypeChecker.error("undeclared variable '" + node.right + "'",node.lineno)
-
-        elif ttype[op][type1][type2] == 'None':
-            TypeChecker.error("illegal operation - '" + str(type1) + "' " + str(op) + " '" + str(type2) + "'",node.lineno)  
-        else: 
-            return ttype[op][type1][type2]
-        
- 
-    def visit_LabeledInstruction(self, node):
-        node.instruction.accept(self)
+    
 
     def visit_Arg(self, node):
         if node.symbol_table.get(node.name) != None and node.symbol_table.found_in_parent == False:
@@ -164,11 +109,6 @@ class TypeChecker(object):
         node.condition.accept(self)
         node.instruction.accept(self)
 
-
-    def visit_RepeatUntilInstr(self,node):
-        node.condition.accept(self)
-        for instr in node.instructions:
-            instr.accept(self)
 
     def visit_FunCall(self,node):
         fun = node.symbol_table.get(node.fun_name)

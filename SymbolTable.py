@@ -12,8 +12,7 @@ class FunctionSymbol(object):
 
     def __init__(self, name, type, args):
         self.name = name
-        # function return type
-        self.type = type
+        self.type = type    # function return type
         self.args = args
 
 

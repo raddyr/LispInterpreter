@@ -1,12 +1,12 @@
 ttype = {}
 
-for op in ['+','-','*','/','<','<=','>','>=','!=','==','&&','||','|','&','<<','>>','^','%']:
+for op in ['+','-','*','/','<','<=','>','>=','not','eq','and','or']:
     ttype[op] = {}
     for left in ['string', 'int', 'float']:
         ttype[op][left] = {}
 
         # operacje porownania
-        if op in ['<','<=','>','>=','!=','==']:
+        if op in ['<','<=','>','>=','not','eq']:
             for right in ['string', 'int', 'float']:
                 if (left != 'string' and right != 'string') or (left == right == 'string'):
                     ttype[op][left][right] = 'int'
@@ -28,7 +28,7 @@ for op in ['+','-','*','/','<','<=','>','>=','!=','==','&&','||','|','&','<<','>
                     ttype[op][left][right] = 'None'
 
         # operacje binarne i logiczne, modulo
-        if op in ['&&','||','|','&','<<','>>','^','%']:
+        if op in ['and','or']:
             for right in ['string','int','float']:
                 if left == 'int' and right == 'int':
                     ttype[op][left][right] = 'int'
