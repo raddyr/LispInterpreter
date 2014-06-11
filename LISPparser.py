@@ -46,12 +46,17 @@ class LISPparser(object):
     def p_line(self, p):
         """line : expression NEWLINE
                   | NEWLINE """
-        pass #TODO: print RESULT
-    
+        print p[1]
+        if(len(p) == 3):
+            p[0] = p[1]
+        else:
+            pass
+        
     
     def p_expression(self, p):
         """expression : '(' FUNCTION arg_list ')'
                         | atom """
+        # print p[2]
         if(len(p) == 5):
             p[0] = Expression(p[2], p[3], None)
             p[0].set_lineno(self.scanner.lineno)

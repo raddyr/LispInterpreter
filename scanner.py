@@ -51,9 +51,9 @@ class Scanner(object):
   def t_newline(self,t):
       r'\n+'
       t.lexer.lineno += len(t.value)
-      self.lineno = t.lexer.lineno
-      t.type = "NEWLINE"
-      return t
+      # self.lineno = t.lexer.lineno
+      # t.type = "NEWLINE"
+      # return t
 
   def t_newline2(self,t):
       r'(\r\n)+'
@@ -88,3 +88,7 @@ class Scanner(object):
       r"[a-zA-Z_]\w*"
       t.type = Scanner.reserved.get(t.value, 'ID')
       return t
+
+  def t_COMMENT(self, t):
+    r'[#][^\n]*'
+    pass
