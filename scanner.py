@@ -81,7 +81,7 @@ class Scanner(object):
       return t
   
   def t_FUNCTION(self, t):
-      r'(\+|-|\*|/|<|<=|>|>=|car|cdr|eq|not|and|or|setq|length|print)\s'
+      r'(\+|-|\*|/|<|<=|>|>=|car|cdr|eq|not|and|or|setq|length|print)?\s'
       return t
 
   def t_ID(self,t):

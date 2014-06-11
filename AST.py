@@ -20,12 +20,11 @@ class Node(object):
 
 # Caly program
 class Expression(Node):
-    def __init__(self, function_name, args):
+    def __init__(self, function_name, args, atom):
         self.function_name = function_name
         self.args = args
-
-    def __init__(self, atom):
         self.atom = atom
+
 
 # Stale
 class Const(Node):
