@@ -49,7 +49,7 @@ class LISPparser(object):
         """expression : '(' FUNCTION arg_list ')'
                         | arg """
         if(len(p) == 5):
-            p[0] = Expression(p[2], p[3], None)
+            p[0] = Expression(p[2], p[3])
             p[0].set_lineno(self.scanner.lineno)
         else:
             p[0] = Arg(p[1])

@@ -20,10 +20,9 @@ class Node(object):
 
 
 class Expression(Node):
-    def __init__(self, function_name, args, arg):
+    def __init__(self, function_name, args):
         self.function_name = function_name
         self.args = args
-        self.arg = arg
 
 class ArgList(Node):
     def __init__(self):
