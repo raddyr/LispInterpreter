@@ -43,8 +43,8 @@ class LISPparser(object):
                     | """
         if(len(p) == 3):
             p[0] = p[1]
-            #print p[0].return_value
-            print p[0]        
+            print p[0]
+            # print p[0]        
     
     def p_expression(self, p):
         """expression : '(' FUNCTION arg_list ')'
@@ -53,7 +53,7 @@ class LISPparser(object):
             p[0] = Expression(p[2], p[3], None)
             p[0].set_lineno(self.scanner.lineno)
         else:
-            p[0] = Expression(None, None, p[1])
+            p[0] = Arg(p[1])
             p[0].set_lineno(self.scanner.lineno)
 
 
@@ -70,7 +70,11 @@ class LISPparser(object):
     def p_arg(self, p):
         """arg : atom
                 | list """
-        p[0] = p[1]
+        if(isinstance(p[1], Atom)):
+            p[0] = p[1]
+        else:
+            p[0] = List()
+            p[0].add_argument_list(p[1])
         # p[0].set_lineno(self.scanner.lineno)
 
     def p_atom(self, p):

@@ -17,7 +17,26 @@ class Interpreter(object):
 
     @when(AST.Expression)
     def visit(self, node):
-        pass
+        if (node.atom != None):
+            # print node.atom
+            return node.atom
+        else:
+            function = None
+            for func in Interpreter.functions:
+                if (func.fun_name == node.function_name):
+                    function = func
+                    break
+
+            if (function == None):
+                return
+            Interpreter.functionMemory.push(Memory(node.function_name + "_scope"))
+            for i in range(len(function.args_list)):
+                value = Interpreter.evalNode(self,node.expr_list[i])
+                Interpreter.functionMemory.insert(function.args_list[i].name, value)
+            try:
+                function.instr_list.accept2(self)
+            except ReturnValueException as e:
+                return e.value
 
     @when(AST.Const)
     def visit(self, node):
