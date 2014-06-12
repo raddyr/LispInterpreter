@@ -86,9 +86,9 @@ class LISPparser(object):
 
     def p_list(self, p):
         """list : '(' ')' 
-                 | '(' arg_list ')'
+                 | BRACKET arg_list ')'
                  | '(' arg_list '.' arg ')'
-                 | '\\'' arg
+                 | '(' arg_list ')'
                  | QUOTE arg """
         p[0] = List()
         if(len(p) == 3):

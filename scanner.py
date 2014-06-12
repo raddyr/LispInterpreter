@@ -41,7 +41,7 @@ class Scanner(object):
   }
 
 
-  tokens = [ "FLOAT", "ID", "INTEGER", "STRING", "FUNCTION"
+  tokens = [ "FLOAT", "ID", "INTEGER", "STRING", "FUNCTION", "BRACKET"
            ] + list(reserved.values())
            
 
@@ -57,7 +57,6 @@ class Scanner(object):
       r'(\r\n)+'
       t.lexer.lineno += len(t.value) / 2
       self.lineno = t.lexer.lineno
-
 
   def t_error(self,t):
       print("Illegal character '{0}' ({1}) in line {2}".format(t.value[0], hex(ord(t.value[0])), t.lexer.lineno))
@@ -85,6 +84,10 @@ class Scanner(object):
   def t_ID(self,t):
       r"[a-zA-Z_]+"
       t.type = Scanner.reserved.get(t.value, 'ID')
+      return t
+
+  def t_BRACKET(self,t):
+      r'\'\('
       return t
 
   def t_COMMENT(self, t):
