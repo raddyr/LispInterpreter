@@ -82,7 +82,7 @@ class LISPparser(object):
                  | FLOAT
                  | STRING
                  | ID"""
-        p[0] = Const(p[1])
+        p[0] = Atom(p[1])
         p[0].set_lineno(self.scanner.lineno)
 
     def p_list(self, p):

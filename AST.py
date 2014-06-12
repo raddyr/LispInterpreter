@@ -33,6 +33,9 @@ class Arg(Node):
     def __init__(self, value):
         self.value = value
 
+    def __str__(self):
+        return self.value.__str__()
+
 # Listy
 class List(Node):
     def __init__(self):
@@ -54,6 +57,9 @@ class Atom(Node):
         self.type = "Const"
         self.value = value
 
+    def __str__(self):
+        return self.value.__str__()
+
 # Stale
 class Const(Node):
     def __init__(self,value):
@@ -62,7 +68,7 @@ class Const(Node):
         else:
             self.value = value
     def __str__(self):
-        return self.value.__str__()    
+        return self.value
 #---------------------------------------------------------
 # Lista deklaracji
 class DeclarationList(Node):

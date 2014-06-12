@@ -17,9 +17,9 @@ class Interpreter(object):
 
     @when(AST.Expression)
     def visit(self, node):
-        if (node.atom != None):
+        if (node.arg != None):
             # print node.atom
-            return node.atom
+            return node.arg
         else:
             function = None
             for func in Interpreter.functions:

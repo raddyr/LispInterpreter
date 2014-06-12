@@ -93,7 +93,7 @@ class TypeChecker(object):
         node.instr_list.accept(self)
     
 
-    def visit_Arg(self, node):
+    def visit_Fun_Arg(self, node):
         if node.symbol_table.get(node.name) != None and node.symbol_table.found_in_parent == False:
             TypeChecker.error("duplicate function arguments - '" + node.name + "' was already declared",node.lineno)
         else:
