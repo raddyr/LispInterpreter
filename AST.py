@@ -18,13 +18,41 @@ class Node(object):
     def set_lineno(self,lineno):
         self.lineno = lineno
 
-# Caly program
+
 class Expression(Node):
-    def __init__(self, function_name, args, atom):
+    def __init__(self, function_name, args, arg):
         self.function_name = function_name
         self.args = args
-        self.atom = atom
+        self.arg = arg
 
+class ArgList(Node):
+    def __init__(self):
+        self.args = []
+
+class Arg(Node):
+    def __init__(self, value):
+        self.value = value
+
+# Listy
+class List(Node):
+    def __init__(self):
+        self.type = "List"
+        self.arguments = []
+
+    def add_argument(self,argument):
+        self.arguments.append(argument)
+
+    def add_argument_list(self,argument_list):
+        self.arguments.extend(argument_list)
+
+class Atom(Node):
+    def __init__(self, name, value): #zmienne
+        self.type = "Variable"
+        self.name = name
+        self.value = value
+    def __init__(self, value): #stale
+        self.type = "Const"
+        self.value = value
 
 # Stale
 class Const(Node):
@@ -35,7 +63,7 @@ class Const(Node):
             self.value = value
     def __str__(self):
         return self.value.__str__()    
-
+#---------------------------------------------------------
 # Lista deklaracji
 class DeclarationList(Node):
 
@@ -86,7 +114,7 @@ class Function(Node):
 
 
 # Argument funkcji
-class Arg(Node):
+class FunArg(Node):
 
     def __init__(self,type,name):
         self.type = type
