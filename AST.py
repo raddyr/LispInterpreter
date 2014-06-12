@@ -29,9 +29,15 @@ class ArgList(Node):
     def __init__(self):
         self.args = []
 
+    def add_argument(self,arg):
+        self.args.append(arg)
+
 class Arg(Node):
     def __init__(self, value):
         self.value = value
+
+    def __str__(self):
+        return self.value.__str__()
 
 # Listy
 class List(Node):
@@ -45,6 +51,11 @@ class List(Node):
     def add_argument_list(self,argument_list):
         self.arguments.extend(argument_list)
 
+    def __str__(self):
+        res = "("
+        res += reduce((lambda x,y: x.__str__() + " " + y.__str__()), self.arguments)
+        return res + ")"
+
 class Atom(Node):
     def __init__(self, name, value): #zmienne
         self.type = "Variable"
@@ -53,6 +64,9 @@ class Atom(Node):
     def __init__(self, value): #stale
         self.type = "Const"
         self.value = value
+
+    def __str__(self):
+        return self.value.__str__()
 
 # Stale
 class Const(Node):
