@@ -41,7 +41,7 @@ class Scanner(object):
   }
 
 
-  tokens = [ "FLOAT", "ID", "INTEGER", "STRING", "FUNCTION", "NEWLINE"
+  tokens = [ "FLOAT", "ID", "INTEGER", "STRING", "FUNCTION"
            ] + list(reserved.values())
            
 
@@ -51,9 +51,7 @@ class Scanner(object):
   def t_newline(self,t):
       r'\n+'
       t.lexer.lineno += len(t.value)
-      # self.lineno = t.lexer.lineno
-      # t.type = "NEWLINE"
-      # return t
+      self.lineno = t.lexer.lineno
 
   def t_newline2(self,t):
       r'(\r\n)+'
@@ -90,5 +88,5 @@ class Scanner(object):
       return t
 
   def t_COMMENT(self, t):
-    r'[#][^\n]*'
+    r'[;][^\n]*'
     pass
