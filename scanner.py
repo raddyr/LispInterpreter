@@ -89,4 +89,5 @@ class Scanner(object):
 
   def t_COMMENT(self, t):
     r'[;][^\n]*'
-    pass
+    t.lexer.lineno += t.value.count('\n')
+    self.lineno = t.lexer.lineno
