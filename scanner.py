@@ -75,7 +75,7 @@ class Scanner(object):
       return t
   
   def t_STRING(self,t):
-      r'\"([^\\\n]|(\\.))*?\"|\'([^\\\n]|(\\.))*?'
+      r'\"([^\\\n]|(\\.))*?\"'
       return t
   
   def t_FUNCTION(self, t):
@@ -83,7 +83,7 @@ class Scanner(object):
       return t
 
   def t_ID(self,t):
-      r"[a-zA-Z_]\w*"
+      r"[a-zA-Z_]+"
       t.type = Scanner.reserved.get(t.value, 'ID')
       return t
 
