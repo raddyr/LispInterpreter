@@ -47,13 +47,15 @@ class LISPparser(object):
     
     def p_expression(self, p):
         """expression : '(' FUNCTION arg_list ')'
+                        | '(' DEFUN ID list input ')'
                         | arg """
         if(len(p) == 5):
             p[0] = Expression(p[2], p[3])
-            p[0].set_lineno(self.scanner.lineno)
-        else:
+        elif(len(p) == 2):
             p[0] = Arg(p[1])
-            p[0].set_lineno(self.scanner.lineno)
+        else:
+            p[0] = Function(p[3], p[4], p[5])
+        p[0].set_lineno(self.scanner.lineno)
 
 
     def p_arg_list(self, p):

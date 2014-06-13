@@ -1,1 +1,1 @@
-(setq x 2)
+(defun elo (x y) (setq x y) 2)
