@@ -85,7 +85,7 @@ class Function(Node):
         self.return_type = None
         self.fun_name = fun_name
         self.args_list = args_list.arguments    #List.arguments
-        self.instr_list = instr_list
+        self.instr_list = instr_list            #Expressions or/and Args
 
         self.symbol_table = SymbolTable(None,"function " + self.fun_name)
         
