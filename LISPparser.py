@@ -37,17 +37,20 @@ class LISPparser(object):
         exit()
 
     
-    
     def p_input(self, p):
-        """input : input expression
+        """input : expr_list"""
+        p[0] = p[1]
+        print p[0]
+    
+    def p_expr_list(self, p):
+        """expr_list : expr_list expression
                     | """
         if(len(p) == 3):
-            p[0] = p[2]
-            print p[0]      
+            p[0] = p[2]      
     
     def p_expression(self, p):
         """expression : '(' FUNCTION arg_list ')'
-                        | '(' DEFUN ID list input ')'
+                        | '(' DEFUN ID list expr_list ')'
                         | arg """
         if(len(p) == 5):
             p[0] = Expression(p[2], p[3])
