@@ -3,6 +3,7 @@ import SymbolTable
 from Memory import *
 from Exceptions import  *
 from visit import *
+from BuiltInFunctions import builtIns
 
 class Interpreter(object):
 
@@ -15,47 +16,35 @@ class Interpreter(object):
     def visit(self, node):
         pass
 
+    @when(AST.Input)
+    def visit(self, node):
+        node.expr_list.accept2(self)
+        print node
+
+
     @when(AST.Expression)
     def visit(self, node):
-<<<<<<< HEAD
-        if (node.arg != None):
-            # print node.atom
-            return node.arg
-        else:
-            function = None
-            for func in Interpreter.functions:
-                if (func.fun_name == node.function_name):
-                    function = func
-                    break
-
-            if (function == None):
-                return
-            Interpreter.functionMemory.push(Memory(node.function_name + "_scope"))
-            for i in range(len(function.args_list)):
-                value = Interpreter.evalNode(self,node.expr_list[i])
-                Interpreter.functionMemory.insert(function.args_list[i].name, value)
-            try:
-                function.instr_list.accept2(self)
-            except ReturnValueException as e:
-                return e.value
-=======
         function = None
-        for func in Interpreter.functions:
-            if (func.fun_name == node.function_name):
-                function = func
-                break
+        # try:s
+        node.return_value = builtIns[node.function_name](map(lambda x: x.getval(), node.args))
+        return node.return_value
+        # except:
+        #     for func in Interpreter.functions:
+        #         if (func.fun_name == node.function_name):
+        #             function = func
+        #             break
 
-        if (function == None):
-            return
-        Interpreter.functionMemory.push(Memory(node.function_name + "_scope"))
-        for i in range(len(function.args_list)):
-            value = Interpreter.evalNode(self,node.expr_list[i])
-            Interpreter.functionMemory.insert(function.args_list[i].name, value)
-        try:
-            function.instr_list.accept2(self)
-        except ReturnValueException as e:
-            return e.value
->>>>>>> origin/luke
+        #     if (function == None):
+        #         return
+        #     Interpreter.functionMemory.push(Memory(node.function_name + "_scope"))
+        #     for i in range(len(function.args_list)):
+        #         value = Interpreter.evalNode(self,node.expr_list[i])
+        #         Interpreter.functionMemory.insert(function.args_list[i].name, value)
+        #     try:
+        #         function.instr_list.accept2(self)
+        #     except ReturnValueException as e:
+        #         return e.value
+
 
     @when(AST.Const)
     def visit(self, node):
@@ -108,23 +97,6 @@ class Interpreter(object):
             except ContinueException:
                 continue
        
-
-    @when(AST.FunCall)
-    def visit(self, node):
-        for func in Interpreter.functions:
-            if func.fun_name == node.fun_name:
-                function = func
-                break
-
-        Interpreter.functionMemory.push(Memory(node.fun_name + "_scope"))
-        for i in range(len(function.args_list)):
-            value = Interpreter.evalNode(self,node.expr_list[i])
-            Interpreter.functionMemory.insert(function.args_list[i].name, value)
-        try:
-            function.instr_list.accept2(self)
-        except ReturnValueException as e:
-            return e.value
-
     @classmethod
     def calculate(cls, op, r1, r2):
         return eval(str(r1) + str(op) + str(r2))

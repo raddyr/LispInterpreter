@@ -19,10 +19,22 @@ class Node(object):
         self.lineno = lineno
 
 
+class Input(Node):
+    def __init__(self, expr_list):
+        self.expr_list = expr_list
+
+    def __str__(self):
+        return self.expr_list.__str__()
+
+
 class Expression(Node):
     def __init__(self, function_name, args):
         self.function_name = function_name
         self.args = args
+        self.return_value = "a"
+
+    def __str__(self):
+        return self.return_value.__str__()
 
 class ArgList(Node):
     def __init__(self):
@@ -55,6 +67,9 @@ class List(Node):
         res += reduce((lambda x,y: x.__str__() + " " + y.__str__()), self.arguments)
         return res + ")"
 
+    def getval(self):
+        return map(lambda x: x.getval(), self.arguments)
+
 class Atom(Node):
     def __init__(self, name, value): #zmienne
         self.type = "Variable"
@@ -67,6 +82,8 @@ class Atom(Node):
     def __str__(self):
         return self.value.__str__()
 
+    def getval(self):
+        return self.value
 # Stale
 class Const(Node):
     def __init__(self,value):
@@ -75,11 +92,10 @@ class Const(Node):
         else:
             self.value = value
     def __str__(self):
-<<<<<<< HEAD
-        return self.value
-=======
         return self.value.__str__()
 
+    def getval(self):
+        return self.value
 
 # Definicja funkcji
 class Function(Node):
@@ -106,7 +122,6 @@ class Function(Node):
     def __str__(self):
         return self.fun_name
 
->>>>>>> origin/luke
 #---------------------------------------------------------
 # Lista deklaracji
 class DeclarationList(Node):
@@ -214,18 +229,4 @@ class WhileInstr(Instruction):
         else:
             self.instruction.set_symbol_table(symbol_table)
 
-
-# Wywolanie funkcji
-class FunCall(Node):
-
-    def __init__(self,fun_name,expr_list):
-        self.fun_name = fun_name
-        self.expr_list = expr_list
-
-    def set_symbol_table(self, symbol_table):
-        self.symbol_table = symbol_table
-        for expr in self.expr_list:
-            if type(expr) == BinExpr or type(expr) == FunCall:
-                expr.set_symbol_table(symbol_table)
-        
 

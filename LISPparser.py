@@ -39,8 +39,8 @@ class LISPparser(object):
     
     def p_input(self, p):
         """input : expr_list"""
-        p[0] = p[1]
-        print p[0]
+        p[0] = Input(p[1])
+        # print p[0]
     
     def p_expr_list(self, p):
         """expr_list : expr_list expression
