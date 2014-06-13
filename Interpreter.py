@@ -29,7 +29,8 @@ class Interpreter(object):
         try:
             node.return_value = builtIns[node.function_name](map(lambda x: x.getval(), node.args))
             return node.return_value
-        except:
+        except TypeError as te:
+            print te
             for func in Interpreter.functions:
                 if (func.fun_name == node.function_name):
                     function = func

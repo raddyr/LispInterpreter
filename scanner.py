@@ -37,11 +37,12 @@ class Scanner(object):
     # 'length'  : 'LENGTH',
     # 'print'   : 'PRINT',
     # 'cond'    : 'COND',
+    'defun'   : "DEFUN",
     'quote'   : 'QUOTE'
   }
 
 
-  tokens = [ "FLOAT", "ID", "INTEGER", "STRING", "FUNCTION", "BRACKET", "DEFUN"
+  tokens = [ "FLOAT", "ID", "INTEGER", "STRING", "FUNCTION", "BRACKET"
            ] + list(reserved.values())
            
 
@@ -80,8 +81,7 @@ class Scanner(object):
   def t_FUNCTION(self, t):
       r'(\+|-|\*|/|<|<=|>|>=|car|cdr|eq|not|and|or|setq|length|print|do|lambda|defun)?\s'
       t.value = t.value[0:-1]
-      if(t.value == "defun"):
-        t.type = "DEFUN"
+      t.type = Scanner.reserved.get(t.value, 'FUNCTION')
       return t
 
   def t_ID(self,t):

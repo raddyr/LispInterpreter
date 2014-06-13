@@ -1,2 +1,4 @@
-(defun sum (x y) (+ x y))
-(car (cdr (1 2 3)))
+;(defun sum (x y) (+ x y))
+;(car (cdr (1 2 3)))
+;(+ 1 "a")
+(dx 2 3)
