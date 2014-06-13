@@ -24,6 +24,7 @@ class Interpreter(object):
 
     @when(AST.Expression)
     def visit(self, node):
+        map(lambda x: x.accept2(self), node.args)
         function = None
         # try:s
         node.return_value = builtIns[node.function_name](map(lambda x: x.getval(), node.args))
@@ -50,6 +51,17 @@ class Interpreter(object):
     def visit(self, node):
         return node.value
 
+    @when(AST.Arg)
+    def visit(self, node):
+        node.value.accept2(self) 
+        return node.value
+
+
+    @when(AST.ArgList)
+    def visit(self, node):
+        node.value.accept2(self) 
+        return node.value
+    
     @when(AST.DeclarationList)
     def visit(self, node):
         for decl in node.declarations:

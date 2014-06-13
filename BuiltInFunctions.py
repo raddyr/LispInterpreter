@@ -1,8 +1,8 @@
 builtIns = {
-	'+' : lambda x: x[0]+x[1],
-	'-' : lambda x: x-y,
-	'*' : lambda x: x*y,
-	'/' : lambda x: x/y,
+	'+' : lambda x: reduce(lambda d,y: d+y, x),
+	'-' : lambda x: reduce(lambda d,y: d-y, x),
+	'*' : lambda x: reduce(lambda d,y: d*y, x),
+	'/' : lambda x: reduce(lambda d,y: d/y, x),
 
 	'car': lambda x: x[0],
 	'cdr': lambda x: x[1:],

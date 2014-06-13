@@ -31,10 +31,13 @@ class Expression(Node):
     def __init__(self, function_name, args):
         self.function_name = function_name
         self.args = args
-        self.return_value = "a"
+        self.return_value = None 
 
     def __str__(self):
         return self.return_value.__str__()
+
+    def getval(self):
+        return self.return_value
 
 class ArgList(Node):
     def __init__(self):
@@ -50,6 +53,8 @@ class Arg(Node):
     def __str__(self):
         return self.value.__str__()
 
+    def getval(self):
+        return self.value.getval()
 # Listy
 class List(Node):
     def __init__(self):

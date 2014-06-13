@@ -51,7 +51,7 @@ class LISPparser(object):
     def p_expression(self, p):
         """expression : '(' FUNCTION arg_list ')'
                         | '(' DEFUN ID list expr_list ')'
-                        | arg """
+                        """
         if(len(p) == 5):
             p[0] = Expression(p[2], p[3])
         elif(len(p) == 2):
@@ -73,8 +73,11 @@ class LISPparser(object):
 
     def p_arg(self, p):
         """arg : atom
-                | list """
+                | list 
+                | expression"""
         if(isinstance(p[1], Atom)):
+            p[0] = p[1]
+        elif(isinstance(p[1], Expression)):
             p[0] = p[1]
         else:
             p[0] = List()
