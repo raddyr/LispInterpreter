@@ -20,10 +20,9 @@ class Node(object):
 
 
 class Expression(Node):
-    def __init__(self, function_name, args, arg):
+    def __init__(self, function_name, args):
         self.function_name = function_name
         self.args = args
-        self.arg = arg
 
 class ArgList(Node):
     def __init__(self):
@@ -76,7 +75,38 @@ class Const(Node):
         else:
             self.value = value
     def __str__(self):
+<<<<<<< HEAD
         return self.value
+=======
+        return self.value.__str__()
+
+
+# Definicja funkcji
+class Function(Node):
+
+    def __init__(self, fun_name, args_list, instr_list):
+        self.return_type = None
+        self.fun_name = fun_name
+        self.args_list = args_list.arguments    #List.arguments
+        self.instr_list = instr_list
+
+        self.symbol_table = SymbolTable(None,"function " + self.fun_name)
+        
+        if self.args_list:
+            for arg in self.args_list:
+                arg.set_symbol_table(self.symbol_table)
+
+        self.instr_list.set_symbol_table(self.symbol_table)
+
+        # TypeChecker.return_type = return_type
+
+    def set_symbol_table_parent(self,parent):
+        self.symbol_table.parent = parent
+
+    def __str__(self):
+        return self.fun_name
+
+>>>>>>> origin/luke
 #---------------------------------------------------------
 # Lista deklaracji
 class DeclarationList(Node):
@@ -102,29 +132,6 @@ class Declaration(Node):
 
     def set_type(self,type):
         self.type = type
-
-
-# Definicja funkcji
-class Function(Node):
-
-    def __init__(self,return_type,fun_name,args_list,instr_list):
-        self.return_type = return_type
-        self.fun_name = fun_name
-        self.args_list = args_list
-        self.instr_list = instr_list
-
-        self.symbol_table = SymbolTable(None,"function " + self.fun_name)
-        
-        if self.args_list:
-            for arg in self.args_list:
-                arg.set_symbol_table(self.symbol_table)
-              
-        self.instr_list.set_symbol_table_parent(self.symbol_table)
-
-        TypeChecker.return_type = return_type
-
-    def set_symbol_table_parent(self,parent):
-        self.symbol_table.parent = parent
 
 
 # Argument funkcji
