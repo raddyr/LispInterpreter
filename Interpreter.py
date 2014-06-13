@@ -26,25 +26,26 @@ class Interpreter(object):
     def visit(self, node):
         map(lambda x: x.accept2(self), node.args)
         function = None
-        # try:s
-        node.return_value = builtIns[node.function_name](map(lambda x: x.getval(), node.args))
-        return node.return_value
-        # except:
-        #     for func in Interpreter.functions:
-        #         if (func.fun_name == node.function_name):
-        #             function = func
-        #             break
+        try:
+            node.return_value = builtIns[node.function_name](map(lambda x: x.getval(), node.args))
+            return node.return_value
+        except:
+            for func in Interpreter.functions:
+                if (func.fun_name == node.function_name):
+                    function = func
+                    break
 
-        #     if (function == None):
-        #         return
-        #     Interpreter.functionMemory.push(Memory(node.function_name + "_scope"))
-        #     for i in range(len(function.args_list)):
-        #         value = Interpreter.evalNode(self,node.expr_list[i])
-        #         Interpreter.functionMemory.insert(function.args_list[i].name, value)
-        #     try:
-        #         function.instr_list.accept2(self)
-        #     except ReturnValueException as e:
-        #         return e.value
+            if (function == None):
+                return
+            Interpreter.functionMemory.push(Memory(node.function_name + "_scope"))
+            for i in range(len(function.args_list)):
+                value = Interpreter.evalNode(self,node.expr_list[i])
+                Interpreter.functionMemory.insert(function.args_list[i].name, value)
+                node.return_value = value
+            try:
+                function.instr_list.accept2(self)
+            except ReturnValueException as e:
+                return e.value
 
 
     @when(AST.Const)

@@ -1,2 +1,2 @@
-(defun dum (x y) (setq 2 2) (setq 2 3))
-(/ 4 2 2)
+(defun sum (x y) (+ x y))
+(car (cdr (1 2 3)))
