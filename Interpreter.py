@@ -17,7 +17,11 @@ class Interpreter(object):
 
     @when(AST.Input)
     def visit(self, node):
-        map(lambda x: x.accept2(self), node.expr_list)
+        for x in range(len(node.expr_list)):
+            res = node.expr_list[x].accept2(self)
+            if(type(res) == Exception):
+                print res
+                return
         print node.expr_list[-1]
 
 
@@ -33,13 +37,13 @@ class Interpreter(object):
             node.return_value = res
             return res
             # raise ReturnValueException(node.return_value) #TO TYLKO JESLI BEDZIEMY CHCIELI OBSLUZYC RETURN!
-        except FunctionNotFound:
+        except:
             for func in Interpreter.functions:
                 if (func.fun_name == node.function_name):
                     function = func
                     break
             if (function == None):
-                return
+                return Exception("Wrong type of arguments")
             Interpreter.functionMemory.push(Memory(node.function_name + "_scope"))
             for i in range(len(function.args_list)):
                 value = Interpreter.evalNode(self,node.args[i])
