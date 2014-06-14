@@ -27,18 +27,15 @@ class Interpreter(object):
 
     @when(AST.Expression)
     def visit(self, node):
-        if(isinstance(node, AST.Atom)):
-            print Interpreter.evalNode(self, node.value.name)
+        # if(isinstance(node, AST.Atom)):
+        #     print Interpreter.evalNode(self, node.value.name)
         map(lambda x: x.accept2(self), node.args)
         function = None
         try:            
             if(node.function_name == 'setq'):
-                # setqList = [node.args[0].value.name]
-                # setqList.append(Interpreter.evalNode(self, node.args[1]))
-                # res = builtIns['setq'](setqList)
-                # print node.args[0].value.name + " : " + str(Interpreter.evalNode(self, node.args[1]))
-                res = Interpreter.globalMemory.insert(node.args[0].value.name, Interpreter.evalNode(self, node.args[1]))
-                # print "dd"+str(Interpreter.globalMemory.get.data)
+                setqList = [node.args[0].value.name]
+                setqList.append(Interpreter.evalNode(self, node.args[1]))
+                res = builtIns['setq'](setqList)
             else:
                 if(node.function_name not in builtIns):
                     raise FunctionNotFound
