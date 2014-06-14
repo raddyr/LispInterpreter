@@ -42,7 +42,7 @@ class Scanner(object):
   }
 
 
-  tokens = [ "FLOAT", "ID", "INTEGER", "STRING", "FUNCTION", "BRACKET"
+  tokens = [ "FLOAT", "ID", "INTEGER", "STRING", "BRACKET",
            ] + list(reserved.values())
            
 
@@ -78,14 +78,14 @@ class Scanner(object):
       r'\"([^\\\n]|(\\.))*?\"'
       return t
   
-  def t_FUNCTION(self, t):
-      r'(\+|-|\*|/|<|<=|>|>=|car|cdr|eq|not|and|or|setq|length|print|do|lambda|defun)?\s'
-      t.value = t.value[0:-1]
-      t.type = Scanner.reserved.get(t.value, 'FUNCTION')
-      return t
+  # def t_FUNCTION(self, t):
+  #     r'(\+|-|\*|/|<|<=|>|>=|car|cdr|eq|not|and|or|setq|length|print|do|lambda|defun)?\s'
+  #     t.value = t.value[0:-1]
+  #     t.type = Scanner.reserved.get(t.value, 'FUNCTION')
+  #     return t
 
   def t_ID(self,t):
-      r"[a-zA-Z_]\w*"
+      r"[a-zA-Z_\+-/\*]\w*"
       t.type = Scanner.reserved.get(t.value, 'ID')
       return t
 

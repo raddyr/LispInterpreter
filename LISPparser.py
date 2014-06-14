@@ -45,12 +45,21 @@ class LISPparser(object):
     def p_expr_list(self, p):
         """expr_list : expr_list expression
                     | """
-        if(len(p) == 3):
-            p[0] = p[2]      
+        # if(len(p) == 3):
+        #     p[0].append(p[2])  
+        # print len(p)
+
+        if (len(p) == 3 and p[2] != None):
+            p[1].append(p[2])
+            p[0] = p[1]    
+        else:
+            p[0] = []
     
     def p_expression(self, p):
-        """expression : '(' FUNCTION arg_list ')'
+        """expression : '(' ID arg_list ')'   
                         | '(' DEFUN ID list expr_list ')' """
+        # if(len(p) > 5):
+        #     print p[6]
         if(len(p) == 5):
             p[0] = Expression(p[2], p[3])
         else:
@@ -70,7 +79,7 @@ class LISPparser(object):
 
     def p_arg(self, p):
         """arg : atom
-                | list 
+                | BRACKET arg_list ')'
                 | expression"""
         if(isinstance(p[1], Atom)):
             p[0] = p[1]
@@ -78,7 +87,7 @@ class LISPparser(object):
             p[0] = p[1]
         else:
             p[0] = List()
-            p[0].add_argument_list(p[1].arguments)
+            p[0].add_argument_list(p[2])
         # p[0].set_lineno(self.scanner.lineno)
 
     def p_atom(self, p):
@@ -91,7 +100,6 @@ class LISPparser(object):
 
     def p_list(self, p):
         """list : '(' ')' 
-                 | BRACKET arg_list ')'
                  | '(' arg_list '.' arg ')'
                  | '(' arg_list ')'
                  | QUOTE arg """

@@ -117,8 +117,8 @@ class Function(Node):
             for arg in self.args_list:
                 arg.set_symbol_table(self.symbol_table)
 
-        self.instr_list.set_symbol_table(self.symbol_table)
-
+        map(lambda x: x.set_symbol_table(self.symbol_table), self.instr_list)
+        # self.instr_list.set_symbol_table(self.symbol_table)
         # TypeChecker.return_type = return_type
 
     def set_symbol_table_parent(self,parent):

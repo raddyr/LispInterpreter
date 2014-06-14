@@ -11,53 +11,66 @@ class Interpreter(object):
     functionMemory = MemoryStack(Memory("function"))
     functions = []
 
-
     @on('node')
     def visit(self, node):
         pass
 
     @when(AST.Input)
     def visit(self, node):
-        node.expr_list.accept2(self)
-        print node
+        map(lambda x: x.accept2(self), node.expr_list)
+        print node.expr_list[-1]
 
 
     @when(AST.Expression)
     def visit(self, node):
+        # print Interpreter.functions
         map(lambda x: x.accept2(self), node.args)
         function = None
         try:
-            node.return_value = builtIns[node.function_name](map(lambda x: x.getval(), node.args))
-            return node.return_value
-        except TypeError as te:
-            print te
+            if(node.function_name not in builtIns):
+                raise FunctionNotFound
+            res = builtIns[node.function_name](map(lambda x: Interpreter.evalNode(self, x), node.args))
+            node.return_value = res
+            return res
+            # raise ReturnValueException(node.return_value) #TO TYLKO JESLI BEDZIEMY CHCIELI OBSLUZYC RETURN!
+        except FunctionNotFound:
             for func in Interpreter.functions:
                 if (func.fun_name == node.function_name):
                     function = func
                     break
-
             if (function == None):
                 return
             Interpreter.functionMemory.push(Memory(node.function_name + "_scope"))
             for i in range(len(function.args_list)):
-                value = Interpreter.evalNode(self,node.expr_list[i])
-                Interpreter.functionMemory.insert(function.args_list[i].name, value)
-                node.return_value = value
+                value = Interpreter.evalNode(self,node.args[i])
+                Interpreter.functionMemory.insert(function.args_list[i].value, value)
+            retval = None
             try:
-                function.instr_list.accept2(self)
+                for i in range(len(function.instr_list)):
+                    retval = function.instr_list[i].accept2(self)
             except ReturnValueException as e:
+                node.return_value = e.value
                 return e.value
-
-
+            node.return_value = retval
+            return retval  
+        
     @when(AST.Const)
     def visit(self, node):
         return node.value
+
+    @when(AST.List)
+    def visit(self, node):
+        #return node.arguments
+        return map(lambda x: x.accept2(self), node.arguments)
 
     @when(AST.Arg)
     def visit(self, node):
         node.value.accept2(self) 
         return node.value
 
+    @when(AST.Atom)
+    def visit(self, node):
+        return node.value
 
     @when(AST.ArgList)
     def visit(self, node):
@@ -125,10 +138,14 @@ class Interpreter(object):
     @classmethod
     def evalNode(cls, self, node):
         value = None
-        if type(node) == str:
-            value = Interpreter.current_scope().get(node)
+        if isinstance(node, AST.Expression):
+            return node.accept2(self)
+        elif isinstance(node, AST.List):
+            return node.accept2(self)
+        elif (type(node.value) == str):
+            value = Interpreter.current_scope().get(node.value)
             if value == None:
-                value = Interpreter.globalMemory.get(node)
+                value = Interpreter.globalMemory.get(node.value)
         elif node:
             value = node.accept2(self)
         return value

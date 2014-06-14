@@ -9,3 +9,6 @@ class BreakException(Exception):
 
 class ContinueException(Exception):
     pass
+
+class FunctionNotFound(Exception):
+	pass
