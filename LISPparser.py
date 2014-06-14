@@ -44,7 +44,7 @@ class LISPparser(object):
     
     def p_expr_list(self, p):
         """expr_list : expr_list expression
-                    | """
+                    | expression"""
         # if(len(p) == 3):
         #     p[0].append(p[2])  
         # print len(p)
@@ -53,14 +53,17 @@ class LISPparser(object):
             p[1].append(p[2])
             p[0] = p[1]    
         else:
-            p[0] = []
+            p[0] = [p[1]]
     
     def p_expression(self, p):
         """expression : '(' ID arg_list ')'   
-                        | '(' DEFUN ID list expr_list ')' """
+                        | '(' DEFUN ID list expr_list ')' 
+                        | atom"""
         # if(len(p) > 5):
         #     print p[6]
-        if(len(p) == 5):
+        if(len(p) == 2):
+            p[0] = p[1]
+        elif(len(p) == 5):
             p[0] = Expression(p[2], p[3])
         else:
             p[0] = Function(p[3], p[4], p[5])
@@ -78,25 +81,27 @@ class LISPparser(object):
         # p[0].set_lineno(self.scanner.lineno)
 
     def p_arg(self, p):
-        """arg : atom
-                | BRACKET arg_list ')'
+        """arg : atom                
                 | expression"""
-        if(isinstance(p[1], Atom)):
-            p[0] = p[1]
-        elif(isinstance(p[1], Expression)):
-            p[0] = p[1]
-        else:
-            p[0] = List()
-            p[0].add_argument_list(p[2])
+        
+        p[0] = p[1]
+            # p[0].add_argument_list(p[2])
         # p[0].set_lineno(self.scanner.lineno)
 
     def p_atom(self, p):
         """atom : INTEGER
                  | FLOAT
                  | STRING
+                 | BRACKET arg_list ')'
                  | ID"""
-        p[0] = Atom(p[1])
-        p[0].set_lineno(self.scanner.lineno)
+        if(len(p) == 4):
+            p[0] = List()
+            p[0].add_argument_list(p[2])
+        else:    
+            p[0] = Atom(p[1])
+            p[0].set_lineno(self.scanner.lineno)
+
+
 
     def p_list(self, p):
         """list : '(' ')' 
