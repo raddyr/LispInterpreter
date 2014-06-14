@@ -81,8 +81,7 @@ class LISPparser(object):
         # p[0].set_lineno(self.scanner.lineno)
 
     def p_arg(self, p):
-        """arg : atom                
-                | expression"""
+        """arg : expression"""
         
         p[0] = p[1]
             # p[0].add_argument_list(p[2])

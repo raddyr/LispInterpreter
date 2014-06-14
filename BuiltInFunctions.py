@@ -13,8 +13,13 @@ builtIns = {
 	'subseq': lambda x, a, b: x[0][a:b],
 	'nth': lambda nth, x: x[0][nth],
 
+	'print' : lambda x: my_print(x[0])
+
 }
 
+def my_print(x):
+	print x
+	return x
 
 # print builtIns['subseq']((1, 2, 3, 4), 1, 3)
 # try:
