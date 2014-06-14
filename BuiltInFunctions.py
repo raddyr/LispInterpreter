@@ -1,3 +1,5 @@
+import Interpreter
+
 builtIns = {
 	'+' : lambda x: reduce(lambda d,y: d+y, x),
 	'-' : lambda x: reduce(lambda d,y: d-y, x),
@@ -14,7 +16,6 @@ builtIns = {
 	'nth': lambda nth, x: x[0][nth],
 
 	'print' : lambda x: my_print(x[0])
-
 }
 
 def my_print(x):

@@ -27,18 +27,26 @@ class Interpreter(object):
 
     @when(AST.Expression)
     def visit(self, node):
-        # print Interpreter.functions
+        if(isinstance(node, AST.Atom)):
+            print Interpreter.evalNode(self, node.value.name)
         map(lambda x: x.accept2(self), node.args)
         function = None
-        try:
-            if(node.function_name not in builtIns):
-                raise FunctionNotFound
-            
-            res = builtIns[node.function_name](map(lambda x: Interpreter.evalNode(self, x), node.args))
+        try:            
+            if(node.function_name == 'setq'):
+                # setqList = [node.args[0].value.name]
+                # setqList.append(Interpreter.evalNode(self, node.args[1]))
+                # res = builtIns['setq'](setqList)
+                # print node.args[0].value.name + " : " + str(Interpreter.evalNode(self, node.args[1]))
+                res = Interpreter.globalMemory.insert(node.args[0].value.name, Interpreter.evalNode(self, node.args[1]))
+                # print "dd"+str(Interpreter.globalMemory.get.data)
+            else:
+                if(node.function_name not in builtIns):
+                    raise FunctionNotFound
+                res = builtIns[node.function_name](map(lambda x: Interpreter.evalNode(self, x), node.args))
             node.return_value = res
             return res
             # raise ReturnValueException(node.return_value) #TO TYLKO JESLI BEDZIEMY CHCIELI OBSLUZYC RETURN!
-        except:
+        except FunctionNotFound:
             for func in Interpreter.functions:
                 if (func.fun_name == node.function_name):
                     function = func
@@ -55,6 +63,7 @@ class Interpreter(object):
                     retval = function.instr_list[i].accept2(self)
             except ReturnValueException as e:
                 node.return_value = e.value
+                Interpreter.functionMemory.pop(Memory(node.function_name + "_scope"))
                 return e.value
             node.return_value = retval
             return retval  
