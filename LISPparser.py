@@ -93,7 +93,7 @@ class LISPparser(object):
                  | FLOAT
                  | STRING
                  | BRACKET arg_list ')'
-                 | ID"""
+                 | idname"""
         if(len(p) == 4):
             p[0] = List()
             p[0].add_argument_list(p[2])
@@ -101,7 +101,10 @@ class LISPparser(object):
             p[0] = Atom(p[1])
             p[0].set_lineno(self.scanner.lineno)
 
-
+    def p_idname(self, p):
+        """idname : ID"""
+        p[0] = IdName(p[1])
+        p[0].set_lineno(self.scanner.lineno)
 
     def p_list(self, p):
         """list : '(' ')' 

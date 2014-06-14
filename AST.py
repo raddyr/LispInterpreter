@@ -76,10 +76,6 @@ class List(Node):
         return map(lambda x: x.getval(), self.arguments)
 
 class Atom(Node):
-    def __init__(self, name, value): #zmienne
-        self.type = "Variable"
-        self.name = name
-        self.value = value
     def __init__(self, value): #stale
         self.type = "Const"
         self.value = value
@@ -89,6 +85,12 @@ class Atom(Node):
 
     def getval(self):
         return self.value
+
+class IdName(Node):
+    def __init__(self, name):
+        self.name = name
+    def __str__(self):
+        return self.name.__str__()
 # Stale
 class Const(Node):
     def __init__(self,value):

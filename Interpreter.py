@@ -33,6 +33,7 @@ class Interpreter(object):
         try:
             if(node.function_name not in builtIns):
                 raise FunctionNotFound
+            
             res = builtIns[node.function_name](map(lambda x: Interpreter.evalNode(self, x), node.args))
             node.return_value = res
             return res
@@ -47,7 +48,7 @@ class Interpreter(object):
             Interpreter.functionMemory.push(Memory(node.function_name + "_scope"))
             for i in range(len(function.args_list)):
                 value = Interpreter.evalNode(self,node.args[i])
-                Interpreter.functionMemory.insert(function.args_list[i].value, value)
+                Interpreter.functionMemory.insert(function.args_list[i].value.name, value)
             retval = None
             try:
                 for i in range(len(function.instr_list)):
@@ -74,7 +75,13 @@ class Interpreter(object):
 
     @when(AST.Atom)
     def visit(self, node):
+        # if(isinstance(node.value, AST.IdName)):
+        #     node.value.accept2(self)
         return node.value
+
+    @when(AST.IdName)
+    def visit(self, node):
+        return Interpreter.evalNode(self, node)
 
     @when(AST.ArgList)
     def visit(self, node):
@@ -142,15 +149,16 @@ class Interpreter(object):
     @classmethod
     def evalNode(cls, self, node):
         value = None
-        if isinstance(node, AST.Expression):
+        if (isinstance(node, AST.Atom) and isinstance(node.value, AST.IdName)):
+            value = Interpreter.current_scope().get(node.value.name)
+            if value == None:
+                value = Interpreter.globalMemory.get(node.value.name)
+        elif isinstance(node, AST.Expression):
             return node.accept2(self)
         elif isinstance(node, AST.List):
             return node.accept2(self)
-        elif (type(node.value) == str):
-            value = Interpreter.current_scope().get(node.value)
-            if value == None:
-                value = Interpreter.globalMemory.get(node.value)
         elif node:
             value = node.accept2(self)
+
         return value
 
