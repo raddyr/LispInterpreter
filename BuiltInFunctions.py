@@ -17,7 +17,6 @@ builtIns = {
 	'and' : lambda x: evalAnd(x),
 	'or' : lambda x: evalOr(x),
 
-	# 'quote'	 : lambda x: x[0],
 	'car'    : lambda x: x[0][0],
 	'cdr'    : lambda x: x[0][1:],
 	'subseq' : lambda x: x[2][x[0]:x[1]],
@@ -26,12 +25,12 @@ builtIns = {
 
 	'print'  : lambda x: evalPrint(x[0]),
 	'setq'   : lambda x: evalSetq(x),
+	# 'quote'	 : lambda x: x[0],
 	# 'cond' : lambda x: evalCond(x)
 }
 
 def evalBoolExpr(x, sign):
 	for i in range(len(x)-1):
-		print eval(str(x[i]) + " " + str(sign) + " " + str(x[i+1]))
 		if not eval(str(x[i]) + " " + str(sign) + " " + str(x[i+1])):
 			return "NIL"
 	return "T"
@@ -60,7 +59,7 @@ def evalOr(x):
 		if x[i] != "NIL":
 			return x[i]
 	return "NIL"
-	
+
 def evalLength(x):
 	if(type(x) == str):
 		return len(x)-2
@@ -77,18 +76,10 @@ def evalSetq(x):
 			Interpreter.Interpreter.globalMemory.insert(x[0], x[1])
 		return x[1]
 
-def evalCond(x):
-	for i in range(len(x)):
-		if Interpreter.evalNode(x[i][0]):
-			for j in range(len(x[i])-1):
-				res = Interpreter.evalNode(x[i][j+1])
-			return res
-	return None
-
-# print builtIns['subseq']((1, 2, 3, 4), 1, 3)
-# try:
-# 	print a['cdr'](1)
-# except TypeError as e:
-# 	print "Wrong argument to"
-# 	print e
-
+# def evalCond(x):
+# 	for i in range(len(x)):
+# 		if Interpreter.evalNode(x[i][0]):
+# 			for j in range(len(x[i])-1):
+# 				res = Interpreter.evalNode(x[i][j+1])
+# 			return res
+# 	return None

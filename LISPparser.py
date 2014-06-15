@@ -6,7 +6,6 @@ from AST import *
 
 class LISPparser(object):
 
-
     def __init__(self):
         self.scanner = Scanner()
         self.scanner.build()
@@ -40,15 +39,10 @@ class LISPparser(object):
     def p_input(self, p):
         """input : expr_list"""
         p[0] = Input(p[1])
-        # print p[0]
     
     def p_expr_list(self, p):
         """expr_list : expr_list expression
                     | expression"""
-        # if(len(p) == 3):
-        #     p[0].append(p[2])  
-        # print len(p)
-
         if (len(p) == 3 and p[2] != None):
             p[1].append(p[2])
             p[0] = p[1]    
@@ -59,15 +53,13 @@ class LISPparser(object):
         """expression : '(' ID arg_list ')'   
                         | '(' DEFUN ID list expr_list ')' 
                         | atom"""
-        # if(len(p) > 5):
-        #     print p[6]
         if(len(p) == 2):
             p[0] = p[1]
         elif(len(p) == 5):
             p[0] = Expression(p[2], p[3])
         else:
             p[0] = Function(p[3], p[4], p[5])
-        p[0].set_lineno(self.scanner.lineno)
+        # p[0].set_lineno(self.scanner.lineno)
 
 
     def p_arg_list(self, p):
@@ -97,12 +89,12 @@ class LISPparser(object):
             p[0].add_argument_list(p[2])
         else:    
             p[0] = Atom(p[1])
-            p[0].set_lineno(self.scanner.lineno)
+            # p[0].set_lineno(self.scanner.lineno)
 
     def p_idname(self, p):
         """idname : ID"""
         p[0] = IdName(p[1])
-        p[0].set_lineno(self.scanner.lineno)
+        # p[0].set_lineno(self.scanner.lineno)
 
     def p_list(self, p):
         """list : '(' ')' 

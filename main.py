@@ -2,7 +2,7 @@
 import sys
 import ply.yacc as yacc
 from LISPparser import LISPparser
-from TypeChecker import TypeChecker
+# from TypeChecker import TypeChecker
 from Interpreter import Interpreter
 
 
@@ -25,5 +25,5 @@ if __name__ == '__main__':
     # to nazwa tej ostatniej dla Interpretera powinna zostac zmieniona, np. na accept2 ( ast.accept2(Interpreter()) )
     # tak aby rozne funkcje accept z roznych implementacji wizytorow nie kolidowaly ze soba
     
-    if TypeChecker.error_found == False:
-        ast.accept2(Interpreter())
+    # if TypeChecker.error_found == False:
+    ast.accept2(Interpreter())

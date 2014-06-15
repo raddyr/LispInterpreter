@@ -10,7 +10,7 @@ class Interpreter(object):
     globalMemory = MemoryStack(Memory("global"))
     functionMemory = MemoryStack(Memory("function"))
     functions = []
-    
+
     globalMemory.insert("NIL", "NIL")
     globalMemory.insert("T", "T")
 
@@ -69,19 +69,20 @@ class Interpreter(object):
             node.return_value = retval
             return retval  
         
-    @when(AST.Const)
+    @when(AST.ArgList)
     def visit(self, node):
+        node.value.accept2(self) 
+        return node.value
+
+    @when(AST.Arg)
+    def visit(self, node):
+        node.value.accept2(self) 
         return node.value
 
     @when(AST.List)
     def visit(self, node):
         #return node.arguments
         return map(lambda x: x.accept2(self), node.arguments)
-
-    @when(AST.Arg)
-    def visit(self, node):
-        node.value.accept2(self) 
-        return node.value
 
     @when(AST.Atom)
     def visit(self, node):
@@ -95,58 +96,16 @@ class Interpreter(object):
     @when(AST.IdName)
     def visit(self, node):
         return Interpreter.evalNode(self, node)
-
-    @when(AST.ArgList)
-    def visit(self, node):
-        node.value.accept2(self) 
-        return node.value
     
-    @when(AST.DeclarationList)
+    @when(AST.Const)
     def visit(self, node):
-        for decl in node.declarations:
-            decl.accept2(self)
-
-    @when(AST.Declaration)
-    def visit(self, node):
-        name = node.left
-        value = node.right.accept2(self)
-        Interpreter.current_scope().insert(name, value)
+        return node.value
 
     @when(AST.Function)
     def visit(self, node):
         Interpreter.functions.append(node)
 
-    @when(AST.Assignment)
-    def visit(self, node):
-        value = Interpreter.evalNode(self, node.right)
 
-        if Interpreter.current_scope().set(node.left, value) == False:
-            Interpreter.globalMemory.set(node.left, value)
-
-    # @when(AST.CompoundInstruction)
-    # def visit(self, node):
-    #     Interpreter.current_scope().push(Memory("compound_instruction"))
-    #     node.declarations.accept2(self)
-    #     for instr in node.instructions:
-    #         instr.accept2(self)
-
-    @when(AST.Condition)
-    def visit(self, node):
-        if node.condition.accept2(self):
-            node.instruction.accept2(self)
-        elif node.else_instruction:
-            node.else_instruction.accept2(self)
-
-    # simplistic while loop interpretation
-    @when(AST.WhileInstr)
-    def visit(self, node):
-        while node.condition.accept2(self):
-            try:
-                node.instruction.accept2(self)
-            except BreakException:
-                break
-            except ContinueException:
-                continue
 
     @classmethod
     def current_scope(cls):
@@ -171,3 +130,49 @@ class Interpreter(object):
 
         return value
 
+
+
+
+
+    # @when(AST.DeclarationList)
+    # def visit(self, node):
+    #     for decl in node.declarations:
+    #         decl.accept2(self)
+
+    # @when(AST.Declaration)
+    # def visit(self, node):
+    #     name = node.left
+    #     value = node.right.accept2(self)
+    #     Interpreter.current_scope().insert(name, value)
+
+    # @when(AST.Assignment)
+    # def visit(self, node):
+    #     value = Interpreter.evalNode(self, node.right)
+
+    #     if Interpreter.current_scope().set(node.left, value) == False:
+    #         Interpreter.globalMemory.set(node.left, value)
+
+    # @when(AST.CompoundInstruction)
+    # def visit(self, node):
+    #     Interpreter.current_scope().push(Memory("compound_instruction"))
+    #     node.declarations.accept2(self)
+    #     for instr in node.instructions:
+    #         instr.accept2(self)
+
+    # @when(AST.Condition)
+    # def visit(self, node):
+    #     if node.condition.accept2(self):
+    #         node.instruction.accept2(self)
+    #     elif node.else_instruction:
+    #         node.else_instruction.accept2(self)
+
+    # # simplistic while loop interpretation
+    # @when(AST.WhileInstr)
+    # def visit(self, node):
+    #     while node.condition.accept2(self):
+    #         try:
+    #             node.instruction.accept2(self)
+    #         except BreakException:
+    #             break
+    #         except ContinueException:
+    #             continue
