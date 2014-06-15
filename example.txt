@@ -25,5 +25,7 @@
 ;(eq 2 2.0)
 ;(not (> 2 1))
 ;(and 2 NIL 3)
-(or NIL 2 NIL)
+;(or NIL 2 NIL)
 ;(cond ((+ 2 2) (print "success")))
+
+(if (eq 1 2) (+ 3 3) (+ 4 4))
