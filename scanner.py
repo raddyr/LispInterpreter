@@ -42,7 +42,7 @@ class Scanner(object):
   }
 
 
-  tokens = [ "FLOAT", "ID", "INTEGER", "STRING", "BRACKET",
+  tokens = [ "FLOAT", "ID", "INTEGER", "STRING", "BRACKET"
            ] + list(reserved.values())
            
 
@@ -77,6 +77,8 @@ class Scanner(object):
   def t_STRING(self,t):
       r'\"([^\\\n]|(\\.))*?\"'
       return t
+
+
   
   # def t_FUNCTION(self, t):
   #     r'(\+|-|\*|/|<|<=|>|>=|car|cdr|eq|not|and|or|setq|length|print|do|lambda|defun)?\s'

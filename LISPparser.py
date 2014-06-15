@@ -50,7 +50,7 @@ class LISPparser(object):
             p[0] = [p[1]]
     
     def p_expression(self, p):
-        """expression : '(' ID arg_list ')'   
+        """expression : '(' ID expr_list ')'   
                         | '(' DEFUN ID list expr_list ')' 
                         | '(' LOOP expression expr_list ')'
                         | atom"""
@@ -65,27 +65,27 @@ class LISPparser(object):
         # p[0].set_lineno(self.scanner.lineno)
 
 
-    def p_arg_list(self, p):
-        """arg_list : arg
-                     | arg_list arg """
-        if (len(p) == 2):
-            p[0] = [p[1]]
-        else:
-            p[1].append(p[2])
-            p[0] = p[1]
-        # p[0].set_lineno(self.scanner.lineno)
+    # def p_arg_list(self, p):
+    #     """arg_list : arg
+    #                  | arg_list arg """
+    #     if (len(p) == 2):
+    #         p[0] = [p[1]]
+    #     else:
+    #         p[1].append(p[2])
+    #         p[0] = p[1]
+    #     # p[0].set_lineno(self.scanner.lineno)
 
-    def p_arg(self, p):
-        """arg : expression"""
+    # def p_arg(self, p):
+    #     """arg : expression"""
 
-        p[0] = p[1]
-        # p[0].set_lineno(self.scanner.lineno)
+    #     p[0] = p[1]
+    #     # p[0].set_lineno(self.scanner.lineno)
 
     def p_atom(self, p):
         """atom : INTEGER
                  | FLOAT
                  | STRING
-                 | BRACKET arg_list ')'
+                 | BRACKET expr_list ')'
                  | idname"""
         if(len(p) == 4):
             p[0] = List()
@@ -101,8 +101,8 @@ class LISPparser(object):
 
     def p_list(self, p):
         """list : '(' ')' 
-                 | '(' arg_list '.' arg ')'
-                 | '(' arg_list ')' """
+                 | '(' expr_list '.' expression ')'
+                 | '(' expr_list ')' """
         p[0] = List()
         if(len(p) == 3):
             p[0].add_argument(p[2])

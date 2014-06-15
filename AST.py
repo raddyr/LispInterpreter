@@ -79,23 +79,22 @@ class List(Node):
 class Atom(Node):
     def __init__(self, value):
         self.value = value
+        self.idRetval = None
 
     def __str__(self):
-        return self.value.__str__()
+        if(self.idRetval == None):
+            return self.value.__str__()
+        return self.idRetval.__str__()
 
     def getval(self):
         return self.value
 
 class IdName(Node):
     def __init__(self, name):
-        self.type = "Variable"
         self.name = name
     def __str__(self):
-        # val = Interpreter.Interpreter.current_scope().get(self.name)
-        # if val == None:
-        #     val = Interpreter.Interpreter.globalMemory.get(self.name)
-        # return str(val)
         return self.name.__str__()
+
 # Stale
 class Const(Node):
     def __init__(self,value):
