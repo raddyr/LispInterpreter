@@ -1,15 +1,18 @@
 import Interpreter
+from Exceptions import *
 
 builtIns = {
-	'+' : lambda x: reduce(lambda d,y: d+y, x),
-	'-' : lambda x: reduce(lambda d,y: d-y, x),
-	'*' : lambda x: reduce(lambda d,y: d*y, x),
-	'/' : lambda x: reduce(lambda d,y: d/y, x),
+	'+'  : lambda x: reduce(lambda d,y: d+y, x),
+	'-'  : lambda x: reduce(lambda d,y: d-y, x),
+	'*'  : lambda x: reduce(lambda d,y: d*y, x),
+	'/'  : lambda x: reduce(lambda d,y: d/y, x),
 
-	'<' : lambda x: evalBoolExpr(x, '<'),
-	'>' : lambda x: evalBoolExpr(x, '>'),
+	'<'  : lambda x: evalBoolExpr(x, '<'),
+	'>'  : lambda x: evalBoolExpr(x, '>'),
 	'<=' : lambda x: evalBoolExpr(x, '<='),
 	'>=' : lambda x: evalBoolExpr(x, '>='),
+
+	'eq' : lambda x: evalEq(x),
 
 	# 'quote'	 : lambda x: x[0],
 	'car'    : lambda x: x[0][0],
@@ -29,6 +32,14 @@ def evalBoolExpr(x, sign):
 			return "NIL"
 	return "T"
 
+def evalEq(x):
+	if len(x) != 2:
+		raise FunctionNotFound
+	if x[0] == x[1]:
+		return "T"
+	else:
+		return "NIL"
+
 def evalLength(x):
 	if(type(x) == str):
 		return len(x)-2
@@ -39,7 +50,7 @@ def evalPrint(x):
 	print x
 	return x
 
-def evalSetq(x):        
+def evalSetq(x):
 	# if Interpreter.current_scope().set(x[0], x[1]) == False: //NIE OBSLUGUJEMY BO SETQ GLOBALNE?
 		if Interpreter.Interpreter.globalMemory.set(x[0], x[1]) == False:
 			Interpreter.Interpreter.globalMemory.insert(x[0], x[1])

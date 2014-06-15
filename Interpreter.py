@@ -33,6 +33,8 @@ class Interpreter(object):
         function = None
         try:            
             if(node.function_name == 'setq'):
+                if len(node.args) != 2:
+                    raise FunctionNotFound
                 res = builtIns['setq']([node.args[0].value.name, Interpreter.evalNode(self, node.args[1])])
             else:
                 if(node.function_name not in builtIns):
@@ -47,7 +49,7 @@ class Interpreter(object):
                     function = func
                     break
             if (function == None):
-                return Exception("Wrong type of arguments")
+                return Exception("Wrong arguments")
             Interpreter.functionMemory.push(Memory(node.function_name + "_scope"))
             for i in range(len(function.args_list)):
                 value = Interpreter.evalNode(self,node.args[i])
