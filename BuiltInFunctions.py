@@ -13,6 +13,8 @@ builtIns = {
 	'>=' : lambda x: evalBoolExpr(x, '>='),
 
 	'eq' : lambda x: evalEq(x),
+	'not': lambda x: evalNot(x),
+	# 'not': lambda x: evalPrint(str(x[0])),
 
 	# 'quote'	 : lambda x: x[0],
 	'car'    : lambda x: x[0][0],
@@ -33,12 +35,17 @@ def evalBoolExpr(x, sign):
 	return "T"
 
 def evalEq(x):
-	if len(x) != 2:
+	if len(x) != 2 or x[0]==None or x[1]==None:
 		raise FunctionNotFound
 	if x[0] == x[1]:
 		return "T"
 	else:
 		return "NIL"
+
+def evalNot(x):
+	if len(x) != 1 or x[0]==None:
+		raise FunctionNotFound
+	return "T" if x[0] == "NIL" else "NIL"
 
 def evalLength(x):
 	if(type(x) == str):
