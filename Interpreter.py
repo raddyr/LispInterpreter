@@ -35,7 +35,8 @@ class Interpreter(object):
             if(node.function_name == 'setq'):
                 setqList = [node.args[0].value.name]
                 setqList.append(Interpreter.evalNode(self, node.args[1]))
-                res = builtIns['setq'](setqList)
+                builtIns['setq'](setqList)
+                res = setqList[1]
             else:
                 if(node.function_name not in builtIns):
                     raise FunctionNotFound
@@ -43,7 +44,7 @@ class Interpreter(object):
             node.return_value = res
             return res
             # raise ReturnValueException(node.return_value) #TO TYLKO JESLI BEDZIEMY CHCIELI OBSLUZYC RETURN!
-        except FunctionNotFound:
+        except (FunctionNotFound, TypeError):
             for func in Interpreter.functions:
                 if (func.fun_name == node.function_name):
                     function = func
@@ -82,7 +83,10 @@ class Interpreter(object):
     @when(AST.Atom)
     def visit(self, node):
         # if(isinstance(node.value, AST.IdName)):
-        #     node.value.accept2(self)
+        #     val = Interpreter.current_scope().get(node.value.name)
+        #     if val == None:
+        #         val = Interpreter.globalMemory.get(node.value.name)
+        #     return val
         return node.value
 
     @when(AST.IdName)

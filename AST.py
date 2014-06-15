@@ -1,6 +1,7 @@
 from SymbolTable import *
 from TypeChecker import *
 
+
 class Node(object):
     def accept(self, visitor):
         className = self.__class__.__name__
@@ -76,8 +77,7 @@ class List(Node):
         return map(lambda x: x.getval(), self.arguments)
 
 class Atom(Node):
-    def __init__(self, value): #stale
-        self.type = "Const"
+    def __init__(self, value):
         self.value = value
 
     def __str__(self):
@@ -88,12 +88,18 @@ class Atom(Node):
 
 class IdName(Node):
     def __init__(self, name):
+        self.type = "Variable"
         self.name = name
     def __str__(self):
+        # val = Interpreter.Interpreter.current_scope().get(self.name)
+        # if val == None:
+        #     val = Interpreter.Interpreter.globalMemory.get(self.name)
+        # return str(val)
         return self.name.__str__()
 # Stale
 class Const(Node):
     def __init__(self,value):
+        self.type = "Const"
         if type(value) == str:
             self.value = value[1:-1]
         else:

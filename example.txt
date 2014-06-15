@@ -1,5 +1,5 @@
-(defun sum (x y) (+ x y) (print (+ x x))) 
-(sum 2 3)
+;(defun sum (x y) (+ x y) (print (+ x x)) (+ x y)) 
+;(sum 2 3)
 ;(car (cdr '(1 2 3)))
 ;(+ 1 "a")
 ;(dx 2 3)
@@ -10,7 +10,7 @@
 ;(cdr '(1 2 3))
 ;'(1 2 3)
 (setq dlh 98)
-(setq a dlh)
-(+ a 3)
-dlh
+;(setq a dlh)
+;(+ a 3)
+;dlh
 ;(cond ((+ 2 2) (print "dupa")))
