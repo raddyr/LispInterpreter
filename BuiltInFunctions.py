@@ -14,7 +14,8 @@ builtIns = {
 
 	'eq' : lambda x: evalEq(x),
 	'not': lambda x: evalNot(x),
-	# 'not': lambda x: evalPrint(str(x[0])),
+	'and' : lambda x: evalAnd(x),
+	'or' : lambda x: evalOr(x),
 
 	# 'quote'	 : lambda x: x[0],
 	'car'    : lambda x: x[0][0],
@@ -30,7 +31,8 @@ builtIns = {
 
 def evalBoolExpr(x, sign):
 	for i in range(len(x)-1):
-		if not eval(str(x[i]) + str(sign) + str(x[i+1])):
+		print eval(str(x[i]) + " " + str(sign) + " " + str(x[i+1]))
+		if not eval(str(x[i]) + " " + str(sign) + " " + str(x[i+1])):
 			return "NIL"
 	return "T"
 
@@ -47,6 +49,18 @@ def evalNot(x):
 		raise FunctionNotFound
 	return "T" if x[0] == "NIL" else "NIL"
 
+def evalAnd(x):
+	for i in range(len(x)):
+		if x[i] == "NIL":
+			return "NIL"
+	return x[len(x)-1]
+
+def evalOr(x):
+	for i in range(len(x)):
+		if x[i] != "NIL":
+			return x[i]
+	return "NIL"
+	
 def evalLength(x):
 	if(type(x) == str):
 		return len(x)-2

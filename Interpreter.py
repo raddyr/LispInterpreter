@@ -10,8 +10,9 @@ class Interpreter(object):
     globalMemory = MemoryStack(Memory("global"))
     functionMemory = MemoryStack(Memory("function"))
     functions = []
+    
     globalMemory.insert("NIL", "NIL")
-    # globalMemory.insert("T", "T")
+    globalMemory.insert("T", "T")
 
 
     @on('node')
