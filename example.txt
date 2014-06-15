@@ -30,4 +30,4 @@
 
 ;(if (eq 1 2) (+ 3 3) (+ 4 4))
 (setq x 0)
-(loop (eq x 2) (setq x (+ x 1)) (print x) "dupa")
+(loop (eq x 2) (setq x (+ x 1)) (print x))
