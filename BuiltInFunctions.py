@@ -25,7 +25,6 @@ builtIns = {
 
 	'print'  : lambda x: evalPrint(x[0]),
 	'setq'   : lambda x: evalSetq(x),
-	# 'quote'	 : lambda x: x[0],
 	# 'cond' : lambda x: evalCond(x)
 }
 

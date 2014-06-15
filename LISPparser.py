@@ -99,8 +99,7 @@ class LISPparser(object):
     def p_list(self, p):
         """list : '(' ')' 
                  | '(' arg_list '.' arg ')'
-                 | '(' arg_list ')'
-                 | QUOTE arg """
+                 | '(' arg_list ')' """
         p[0] = List()
         if(len(p) == 3):
             p[0].add_argument(p[2])
