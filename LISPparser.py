@@ -52,11 +52,14 @@ class LISPparser(object):
     def p_expression(self, p):
         """expression : '(' ID arg_list ')'   
                         | '(' DEFUN ID list expr_list ')' 
+                        | '(' LOOP expression expr_list ')'
                         | atom"""
         if(len(p) == 2):
             p[0] = p[1]
         elif(len(p) == 5):
             p[0] = Expression(p[2], p[3])
+        elif(len(p) == 6):
+            p[0] = WhileInstr(p[3], p[4])
         else:
             p[0] = Function(p[3], p[4], p[5])
         # p[0].set_lineno(self.scanner.lineno)

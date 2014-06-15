@@ -135,6 +135,21 @@ class Function(Node):
     def __str__(self):
         return self.fun_name
 
+class WhileInstr(Expression):
+
+    def __init__(self,condition,instructions):
+        self.condition = condition
+        self.instructions = instructions
+        self.return_value = None
+
+    def set_symbol_table(self, symbol_table):
+        self.symbol_table = symbol_table
+        self.condition.set_symbol_table(symbol_table)
+        if type(self.instruction) == ArgList:
+            self.instruction.set_symbol_table_parent(symbol_table)
+        else:
+            self.instruction.set_symbol_table(symbol_table)
+
 #---------------------------------------------------------
 # # Lista deklaracji
 # class DeclarationList(Node):
@@ -228,16 +243,3 @@ class Function(Node):
 
 
 # # Instrukcja WHILE
-# class WhileInstr(Instruction):
-
-#     def __init__(self,condition,instruction):
-#         self.condition = condition
-#         self.instruction = instruction
-
-#     def set_symbol_table(self, symbol_table):
-#         self.symbol_table = symbol_table
-#         self.condition.set_symbol_table(symbol_table)
-#         if type(self.instruction) == CompoundInstruction:
-#             self.instruction.set_symbol_table_parent(symbol_table)
-#         else:
-#             self.instruction.set_symbol_table(symbol_table)

@@ -78,6 +78,7 @@ def evalSetq(x):
 			Interpreter.Interpreter.globalMemory.insert(x[0], x[1])
 		return x[1]
 
+
 # def evalCond(x):
 # 	for i in range(len(x)):
 # 		if Interpreter.evalNode(x[i][0]):

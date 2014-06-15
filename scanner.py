@@ -38,7 +38,8 @@ class Scanner(object):
     # 'print'   : 'PRINT',
     # 'cond'    : 'COND',
     'defun'   : "DEFUN",
-    'quote'   : 'QUOTE'
+    'quote'   : 'QUOTE',
+    'loop'    : 'LOOP'
   }
 
 

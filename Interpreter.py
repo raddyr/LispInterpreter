@@ -105,6 +105,15 @@ class Interpreter(object):
     def visit(self, node):
         Interpreter.functions.append(node)
 
+    @when(AST.WhileInstr)
+    def visit(self, node):
+        retval = None
+        while (node.condition.accept2(self) == "NIL"):
+            map(lambda x: x.accept2(self), node.instructions[:-1])
+            retval = node.instructions[-1].accept2(self)
+        node.return_value = retval
+        return retval
+
 
 
     @classmethod
@@ -167,12 +176,3 @@ class Interpreter(object):
     #         node.else_instruction.accept2(self)
 
     # # simplistic while loop interpretation
-    # @when(AST.WhileInstr)
-    # def visit(self, node):
-    #     while node.condition.accept2(self):
-    #         try:
-    #             node.instruction.accept2(self)
-    #         except BreakException:
-    #             break
-    #         except ContinueException:
-    #             continue
