@@ -11,7 +11,7 @@ builtIns = {
 	'<=' : lambda x: evalBoolExpr(x, '<='),
 	'>=' : lambda x: evalBoolExpr(x, '>='),
 
-	'quote'	 : lambda x: x[0],
+	# 'quote'	 : lambda x: x[0],
 	'car'    : lambda x: x[0][0],
 	'cdr'    : lambda x: x[0][1:],
 	'subseq' : lambda x: x[2][x[0]:x[1]],
