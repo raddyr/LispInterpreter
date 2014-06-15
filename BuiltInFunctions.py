@@ -17,13 +17,19 @@ builtIns = {
 
 	'print' : lambda x: my_print(x[0]),
 
-	'setq' : lambda x: Interpreter.Interpreter.globalMemory.insert(x[0], x[1]),
+	'setq' : lambda x: evalSetq(x),
 	'cond' : lambda x: evalCond(x)
 }
 
 def my_print(x):
 	print x
 	return x
+
+def evalSetq(x):        
+	# if Interpreter.current_scope().set(x[0], x[1]) == False: //NIE OBSLUGUJEMY BO SETQ GLOBALNE?
+		if Interpreter.Interpreter.globalMemory.set(x[0], x[1]) == False:
+			Interpreter.Interpreter.globalMemory.insert(x[0], x[1])
+		return x[1]
 
 def evalCond(x):
 	for i in range(len(x)):

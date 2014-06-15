@@ -33,10 +33,7 @@ class Interpreter(object):
         function = None
         try:            
             if(node.function_name == 'setq'):
-                setqList = [node.args[0].value.name]
-                setqList.append(Interpreter.evalNode(self, node.args[1]))
-                builtIns['setq'](setqList)
-                res = setqList[1]
+                res = builtIns['setq']([node.args[0].value.name, Interpreter.evalNode(self, node.args[1])])
             else:
                 if(node.function_name not in builtIns):
                     raise FunctionNotFound

@@ -10,6 +10,7 @@
 ;(cdr '(1 2 3))
 ;'(1 2 3)
 (setq dlh 98)
+(setq dlh 1)
 ;(setq a dlh)
 ;(+ a 3)
 ;dlh
