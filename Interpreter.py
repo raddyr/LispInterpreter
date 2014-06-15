@@ -141,10 +141,6 @@ class Interpreter(object):
                 break
             except ContinueException:
                 continue
-       
-    @classmethod
-    def calculate(cls, op, r1, r2):
-        return eval(str(r1) + str(op) + str(r2))
 
     @classmethod
     def current_scope(cls):

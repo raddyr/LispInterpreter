@@ -65,12 +65,12 @@ class Scanner(object):
 
 
   def t_FLOAT(self,t):
-      r"\d+(\.\d*)|\.\d+"
+      r"-?(\d+(\.\d*)|\.\d+)"
       t.value = float(t.value)
       return t
 
   def t_INTEGER(self,t):
-      r"\d+"
+      r"-?\d+"
       t.value = int(t.value)
       return t
   
@@ -85,7 +85,7 @@ class Scanner(object):
   #     return t
 
   def t_ID(self,t):
-      r"[a-zA-Z_\+-/\*]\w*"
+      r"[a-zA-Z_]\w*|\+|-|/|\*|<=|>=|<|>"
       t.type = Scanner.reserved.get(t.value, 'ID')
       return t
 
