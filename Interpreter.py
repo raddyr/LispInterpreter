@@ -1,5 +1,4 @@
 import AST
-import SymbolTable
 from Memory import *
 from Exceptions import  *
 from visit import *
@@ -31,8 +30,6 @@ class Interpreter(object):
 
     @when(AST.Expression)
     def visit(self, node):
-        # if(isinstance(node, AST.Atom)):
-        #     print Interpreter.evalNode(self, node.value.name)
         map(lambda x: x.accept2(self), node.args)
         function = None
         try:            
@@ -81,16 +78,10 @@ class Interpreter(object):
 
     @when(AST.List)
     def visit(self, node):
-        #return node.arguments
         return map(lambda x: x.accept2(self), node.arguments)
 
     @when(AST.Atom)
     def visit(self, node):
-        # if(isinstance(node.value, AST.IdName)):
-        #     val = Interpreter.current_scope().get(node.value.name)
-        #     if val == None:
-        #         val = Interpreter.globalMemory.get(node.value.name)
-        #     return val
         return node.value
 
     @when(AST.IdName)
@@ -138,41 +129,3 @@ class Interpreter(object):
             value = node.accept2(self)
 
         return value
-
-
-
-
-
-    # @when(AST.DeclarationList)
-    # def visit(self, node):
-    #     for decl in node.declarations:
-    #         decl.accept2(self)
-
-    # @when(AST.Declaration)
-    # def visit(self, node):
-    #     name = node.left
-    #     value = node.right.accept2(self)
-    #     Interpreter.current_scope().insert(name, value)
-
-    # @when(AST.Assignment)
-    # def visit(self, node):
-    #     value = Interpreter.evalNode(self, node.right)
-
-    #     if Interpreter.current_scope().set(node.left, value) == False:
-    #         Interpreter.globalMemory.set(node.left, value)
-
-    # @when(AST.CompoundInstruction)
-    # def visit(self, node):
-    #     Interpreter.current_scope().push(Memory("compound_instruction"))
-    #     node.declarations.accept2(self)
-    #     for instr in node.instructions:
-    #         instr.accept2(self)
-
-    # @when(AST.Condition)
-    # def visit(self, node):
-    #     if node.condition.accept2(self):
-    #         node.instruction.accept2(self)
-    #     elif node.else_instruction:
-    #         node.else_instruction.accept2(self)
-
-    # # simplistic while loop interpretation

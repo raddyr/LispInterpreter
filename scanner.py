@@ -27,16 +27,6 @@ class Scanner(object):
 
 
   reserved = {
-    # 'and'     : 'AND',
-    # 'or'      : 'OR',
-    # 'eq'      : 'EQ',
-    # 'not'     : 'NOT',
-    # 'car'     : 'CAR',
-    # 'cdr'     : 'CDR',
-    # 'setq'    : 'SETQ',
-    # 'length'  : 'LENGTH',
-    # 'print'   : 'PRINT',
-    # 'cond'    : 'COND',
     'defun'   : "DEFUN",
     'loop'    : 'LOOP'
   }
@@ -77,12 +67,6 @@ class Scanner(object):
   def t_STRING(self,t):
       r'\"([^\\\n]|(\\.))*?\"'
       return t
-  
-  # def t_FUNCTION(self, t):
-  #     r'(\+|-|\*|/|<|<=|>|>=|car|cdr|eq|not|and|or|setq|length|print|do|lambda|defun)?\s'
-  #     t.value = t.value[0:-1]
-  #     t.type = Scanner.reserved.get(t.value, 'FUNCTION')
-  #     return t
 
   def t_ID(self,t):
       r"[a-zA-Z_]\w*|\+|-|/|\*|<=|>=|<|>"

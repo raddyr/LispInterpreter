@@ -2,7 +2,6 @@
 import sys
 import ply.yacc as yacc
 from LISPparser import LISPparser
-# from TypeChecker import TypeChecker
 from Interpreter import Interpreter
 
 
@@ -19,11 +18,5 @@ if __name__ == '__main__':
     text = file.read()
 
     ast = parser.parse(text, lexer=LISPparser.scanner)
-    # ast.accept(TypeChecker())
-
-    # jesli wizytor TypeChecker z implementacji w poprzednim lab korzystal z funkcji accept
-    # to nazwa tej ostatniej dla Interpretera powinna zostac zmieniona, np. na accept2 ( ast.accept2(Interpreter()) )
-    # tak aby rozne funkcje accept z roznych implementacji wizytorow nie kolidowaly ze soba
     
-    # if TypeChecker.error_found == False:
     ast.accept2(Interpreter())
