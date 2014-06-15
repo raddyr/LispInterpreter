@@ -30,6 +30,8 @@ class Interpreter(object):
 
     @when(AST.Expression)
     def visit(self, node):
+        if(isinstance(node, AST.IdName)):
+            print Interpreter.evalNode(self, node.value.name)
         map(lambda x: x.accept2(self), node.args)
         function = None
         try:            
@@ -65,16 +67,6 @@ class Interpreter(object):
                 return e.value
             node.return_value = retval
             return retval  
-        
-    @when(AST.ArgList)
-    def visit(self, node):
-        node.value.accept2(self) 
-        return node.value
-
-    @when(AST.Arg)
-    def visit(self, node):
-        node.value.accept2(self) 
-        return node.value
 
     @when(AST.List)
     def visit(self, node):
@@ -82,6 +74,9 @@ class Interpreter(object):
 
     @when(AST.Atom)
     def visit(self, node):
+        if(isinstance(node.value, AST.IdName)):
+            node.idRetval = Interpreter.evalNode(self, node.value)
+            return node.idRetval
         return node.value
 
     @when(AST.IdName)
@@ -121,6 +116,10 @@ class Interpreter(object):
             value = Interpreter.current_scope().get(node.value.name)
             if value == None:
                 value = Interpreter.globalMemory.get(node.value.name)
+        elif (isinstance(node, AST.IdName)):
+            value = Interpreter.current_scope().get(node.name)
+            if value == None:
+                value = Interpreter.globalMemory.get(node.name)
         elif isinstance(node, AST.Expression):
             return node.accept2(self)
         elif isinstance(node, AST.List):

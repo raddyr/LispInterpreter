@@ -68,6 +68,8 @@ class List(Node):
         self.arguments.extend(argument_list)
 
     def __str__(self):
+        if(len(self.arguments) == 1):
+            return "(" + self.arguments[0].__str__() + ")"
         res = "("
         res += reduce((lambda x,y: x.__str__() + " " + y.__str__()), self.arguments)
         return res + ")"
@@ -78,22 +80,20 @@ class List(Node):
 class Atom(Node):
     def __init__(self, value):
         self.value = value
+        self.idRetval = None
 
     def __str__(self):
-        return self.value.__str__()
+        if(self.idRetval == None):
+            return self.value.__str__()
+        return self.idRetval.__str__()
 
     def getval(self):
         return self.value
 
 class IdName(Node):
     def __init__(self, name):
-        self.type = "Variable"
         self.name = name
     def __str__(self):
-        # val = Interpreter.Interpreter.current_scope().get(self.name)
-        # if val == None:
-        #     val = Interpreter.Interpreter.globalMemory.get(self.name)
-        # return str(val)
         return self.name.__str__()
 
 class Const(Node):
@@ -124,8 +124,6 @@ class Function(Node):
                 arg.set_symbol_table(self.symbol_table)
 
         map(lambda x: x.set_symbol_table(self.symbol_table), self.instr_list)
-        # self.instr_list.set_symbol_table(self.symbol_table)
-        # TypeChecker.return_type = return_type
 
     def set_symbol_table_parent(self,parent):
         self.symbol_table.parent = parent

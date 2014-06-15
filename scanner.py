@@ -32,7 +32,7 @@ class Scanner(object):
   }
 
 
-  tokens = [ "FLOAT", "ID", "INTEGER", "STRING", "BRACKET",
+  tokens = [ "FLOAT", "ID", "INTEGER", "STRING", "BRACKET"
            ] + list(reserved.values())
            
 
