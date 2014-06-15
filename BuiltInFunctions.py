@@ -8,20 +8,15 @@ builtIns = {
 
 	'car': lambda x: x[0][0],
 	'cdr': lambda x: x[0][1:],
+	'subseq': lambda x: x[2][x[0]:x[1]],
+	'nth': lambda x: x[1][x[0]],
 
-	'1+': lambda x: x[0] +1,
-	'1-': lambda x: x[0] -1,
-
-	'subseq': lambda x, a, b: x[0][a:b],
-	'nth': lambda nth, x: x[0][nth],
-
-	'print' : lambda x: my_print(x[0]),
-
+	'print' : lambda x: evalPrint(x[0]),
 	'setq' : lambda x: evalSetq(x),
-	'cond' : lambda x: evalCond(x)
+	# 'cond' : lambda x: evalCond(x)
 }
 
-def my_print(x):
+def evalPrint(x):
 	print x
 	return x
 
