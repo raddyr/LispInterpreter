@@ -23,7 +23,7 @@ class Scanner(object):
 
 
 
-  literals = "{}()<>=;:,+-*/%&|^"
+  literals = "()"
 
 
   reserved = {
@@ -37,9 +37,13 @@ class Scanner(object):
     # 'length'  : 'LENGTH',
     # 'print'   : 'PRINT',
     # 'cond'    : 'COND',
+<<<<<<< HEAD
     'defun'   : "DEFUN",
     'quote'   : 'QUOTE',
     'loop'    : 'LOOP'
+=======
+    'defun'   : "DEFUN"
+>>>>>>> a8cd90fbf8c0874873fe1c2bf9c55e1a1fb88005
   }
 
 
