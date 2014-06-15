@@ -69,6 +69,8 @@ class List(Node):
         self.arguments.extend(argument_list)
 
     def __str__(self):
+        if(len(self.arguments) == 1):
+            return "(" + self.arguments[0].__str__() + ")"
         res = "("
         res += reduce((lambda x,y: x.__str__() + " " + y.__str__()), self.arguments)
         return res + ")"
