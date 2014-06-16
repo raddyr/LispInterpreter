@@ -11,8 +11,8 @@ builtIns = {
 	'>'  : lambda x: evalBoolExpr(x, '>'),
 	'<=' : lambda x: evalBoolExpr(x, '<='),
 	'>=' : lambda x: evalBoolExpr(x, '>='),
-
 	'eq' : lambda x: evalEq(x),
+	
 	'not': lambda x: evalNot(x),
 	'and' : lambda x: evalAnd(x),
 	'or' : lambda x: evalOr(x),
