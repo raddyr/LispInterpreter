@@ -1,4 +1,4 @@
-(defun sum (x y) (+ x y) (print (+ x x)) (+ x y)) 
+(defun sum (x y) (+ x x) (+ x y)) 
 (sum 2 3)
 (car (cdr '(1 2 3)))
 (+ 2 3)

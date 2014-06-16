@@ -7,7 +7,7 @@ from BuiltInFunctions import builtIns
 class Interpreter(object):
 
     globalMemory = MemoryStack(Memory("global"))
-    functionMemory = MemoryStack(Memory("function"))
+    functionMemory = MemoryStack()
     functions = []
 
     globalMemory.insert("NIL", "NIL")
@@ -58,14 +58,14 @@ class Interpreter(object):
                 value = Interpreter.evalNode(self,node.args[i])
                 Interpreter.functionMemory.insert(function.args_list[i].value.name, value)
             retval = None
-            try:
-                for i in range(len(function.instr_list)):
-                    retval = function.instr_list[i].accept2(self)
-            except ReturnValueException as e:
-                node.return_value = e.value
-                Interpreter.functionMemory.pop(Memory(node.function_name + "_scope"))
-                return e.value
+            # try:
+            for i in range(len(function.instr_list)):
+                retval = function.instr_list[i].accept2(self)
+            # except ReturnValueException as e:
+            #     node.return_value = e.value
+            #     return e.value
             node.return_value = retval
+            Interpreter.functionMemory.pop()
             return retval  
 
     @when(AST.List)
