@@ -1,12 +1,9 @@
-from SymbolTable import *
+# from SymbolTable import *
 
 
 class Node(object):
     def accept2(self, visitor):
         return visitor.visit(self)
-
-    def set_symbol_table(self,symbol_table):
-        self.symbol_table = symbol_table
 
     def set_lineno(self,lineno):
         self.lineno = lineno
@@ -110,17 +107,6 @@ class Function(Node):
         self.args_list = args_list.arguments    #List.arguments
         self.instr_list = instr_list            #Expressions or/and Args
 
-        self.symbol_table = SymbolTable(None,"function " + self.fun_name)
-        
-        if self.args_list:
-            for arg in self.args_list:
-                arg.set_symbol_table(self.symbol_table)
-
-        map(lambda x: x.set_symbol_table(self.symbol_table), self.instr_list)
-
-    def set_symbol_table_parent(self,parent):
-        self.symbol_table.parent = parent
-
     def __str__(self):
         return self.fun_name
 
@@ -130,11 +116,3 @@ class WhileInstr(Expression):
         self.condition = condition
         self.instructions = instructions
         self.return_value = None
-
-    def set_symbol_table(self, symbol_table):
-        self.symbol_table = symbol_table
-        self.condition.set_symbol_table(symbol_table)
-        if type(self.instruction) == ArgList:
-            self.instruction.set_symbol_table_parent(symbol_table)
-        else:
-            self.instruction.set_symbol_table(symbol_table)

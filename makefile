@@ -1,11 +1,10 @@
-PROG = Szymanski
 
 all : run clean
 
+rune: example clean
+
 run:
 	python main.py
-
-rune: example clean
 
 example:
 	python main.py example.txt

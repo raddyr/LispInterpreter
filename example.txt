@@ -27,5 +27,5 @@ dlh
 
 (if (eq 1 2) (+ 3 3) (+ 4 4))
 (setq x 0)
-(loop (eq x 3) (setq x (+ x 1)))
+(loop (eq x 3) (setq x (+ x 1)) x)
 ;'(3 2)
