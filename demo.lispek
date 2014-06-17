@@ -1,0 +1,120 @@
+;DEMO FILE
+
+(print "###### Wyrazenia ######") 
+
+(print "(cdr '(1 2 3 4)) =>")
+(print (cdr '(1 2 3 4)))
+
+(print "(car '(1 2 3 4)) =>")
+(print (car '(1 2 3 4)))
+
+(print "(car (cdr (cdr '(1 2 3 4)))) =>")
+(print (car (cdr (cdr '(1 2 3 4)))))
+
+(print "(+ 1 2) =>")
+(print (+ 1 2))
+
+(print "(+ 1 2 3 4 5) =>")
+(print (+ 1 2 3 4 5))
+
+(print "(* (+ 1 2) (- 7 4)) =>")
+(print (* (+ 1 2) (- 7 4)))
+
+(print "(length '(1 2 3 4 5 6 7 12)) =>")
+(print (length '(1 2 3 4 5 6 7 12)))
+
+(print "(subseq 2 5 '(1 2 3 4 5 6 7 12)) =>")
+(print (subseq 2 5'(1 2 3 4 5 6 7 12)))
+
+(print "(nth 2 '(1 2 3 4 5 6 7 12)) =>")
+(print (nth 2 '(1 2 3 4 5 6 7 12)))
+
+
+(print "###### Operacje logiczne ######") 
+
+(print "(eq 1 1) =>")
+(print (eq 1 1))
+
+(print "(eq 1 2) =>")
+(print (eq 1 2))
+
+(print "(eq 1 2) =>")
+(print (eq 1 2))
+
+(print "(or (eq 1 2) (eq 1 1))=>")
+(print (or (eq 1 2) (eq 1 1)))
+
+(print "(and (eq 1 2) (eq 1 1))=>")
+(print (and (eq 1 2) (eq 1 1)))
+
+(print "(not (eq 1 2)) =>")
+(print (not (eq 1 2)))
+
+(print "###### Porównywanie ######") 
+
+(print "(> 2 1) =>")
+(print (> 2 1))
+
+(print "(> 1 1) =>")
+(print (> 1 1))
+
+(print "(>= 1 1) =>")
+(print (>= 1 1))
+
+(print "(< 1 10) =>")
+(print (< 1 10))
+
+(print "###### Funkcje ######") 
+
+(print "(defun sum_squares (x y) (+ (* x x) (* y y)))")
+(defun sum_squares (x y) (+ (* x x) (* y y)))
+
+(print "(sum_squares 4 5) =>")
+(print (sum_squares 4 5))
+
+(print "(sum_squares 4 (sum_squares 5 6)) =>")
+(print (sum_squares 4 (sum_squares 5 6)))
+
+(print "###### Przypisanie ######") 
+
+(print "(setq a 3) =>")
+(print (setq a 3))
+
+(print "(print a) =>")
+(print a)
+
+(print "(setq b 'text') =>")
+(print (setq b "text"))
+
+(print "(print b) =>")
+(print b)
+
+(print "(setq b 4) =>")
+(print (setq b 4))
+
+(print "(sum_squares a b) =>")
+(print (sum_squares a b))
+
+(print "###### Instrukcja warunkowa ######") 
+
+(print "(if (> 2 4) 'then' 'else') =>")
+(print (if (> 2 4) "then" "else"))
+
+(print "(if (< a b) (+ a b) (- a b)) =>")
+(print (if (< a b) (+ a b) (- a b)))
+
+(print "###### Pętle ######")
+
+(print "(setq c 0) =>")
+(print (setq c 0))
+
+(print "(setq i 0) =>")
+(print (setq i 0))
+
+(print "(loop (> i 10) (setq i (+ i 1)) (setq c (+ c (+ a b))))")
+(loop (> i 10) (setq i (+ i 1)) (setq c (+ c (+ a b))))
+
+(print "c =>")
+(print c)
+
+EOF
