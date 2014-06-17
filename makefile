@@ -14,5 +14,8 @@ example:
 tests:
 	python main.py test.txt
 
+demo:
+	python main.py demo.lispek
+
 clean: 
 	rm -f *.pyc parser.out parsetab.py *~
